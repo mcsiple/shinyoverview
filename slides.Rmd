@@ -1,0 +1,82 @@
+---
+title: "My best friend Shiny"
+subtitle: "<br/>with xaringan"
+author: "Megsie Siple"
+institute: "NOAA AFSC - RACE/GAP"
+date: "2020/12/08 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+.center[
+![an image](BirdsOfAFeather.png)
+]
+Image: Allison Horst for rstudio::conf 2019
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b")
+# style_mono_accent(
+#   base_color = "#1c5253",
+#   header_font_google = google_font("Josefin Sans"),
+#   text_font_google   = google_font("Montserrat", "300", "300i"),
+#   code_font_google   = google_font("Fira Mono")
+# )
+```
+
+---
+class: center, middle
+
+# xaringan
+
+### /ʃaː.'riŋ.ɡan/
+
+---
+class: inverse, center, middle
+
+# Get Started
+
+---
+
+# Hello World
+
+Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
+
+```{r eval=FALSE, tidy=FALSE}
+devtools::install_github("yihui/xaringan")
+```
+
+---
+
+# The need
+
+You want to make R code accessible outside of an R or RSTudio environment. For example:
+- teaching a package
+- showing data visualizations to non-experts
+- streamlining certain code-intensive things (like database queries or visualizing outputs from an analysis)
+
+---
+
+# Dynamic translation
+
+The `{i18.shiny}` package allows for translations
+
+---
+
+class: center, middle
+
+# Thanks!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](https://yihui.org/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
