@@ -42,28 +42,55 @@ class: center, middle
 ### /ʃaː.'riŋ.ɡan/
 
 ---
-class: inverse, center, middle
 
-# Get Started
+# Open code and data
 
----
-
-# Hello World
-
-Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
-
-```{r eval=FALSE, tidy=FALSE}
-devtools::install_github("yihui/xaringan")
-```
+Writing and sharing R code is the bee's knees. 
 
 ---
 
 # The need
 
-You want to make R code accessible outside of an R or RSTudio environment. For example:
+However, sometimes you want to make R code accessible outside of an R or RStudio environment. For example,
+
+--
+
 - teaching a package
+
+--
+
 - showing data visualizations to non-experts
+
+--
+
 - streamlining certain code-intensive things (like database queries or visualizing outputs from an analysis)
+
+---
+
+# Installing Shiny
+
+Install **shiny**:
+
+```{r eval=FALSE, tidy=FALSE}
+install.packages("shiny")
+```
+
+---
+
+# Publishing your Shiny app
+
+If you've put a lot of time into making a Shiny app, you should get credit! 
+The publication/credit avenues are unconventional for Shiny apps, but they DO exist.
+
+- Publish in an open source software journal (e.g., JOSS)
+- Publish code straight from GitHub with a DOI from Zenodo
+- (for "just for fun" apps): submit your Shiny app to the RStudio [Shiny contest](https://community.rstudio.com/t/shiny-contest-2020-is-here/51002)
+<!-- see if you can get some data on citation rates for JOSS vs zenodo github entry -->
+
+---
+
+# What if I am a NOAA employee?
+Guidelines for publishing software are group-dependent. If there's a paper
 
 ---
 
