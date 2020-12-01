@@ -17,8 +17,12 @@ library(shiny.i18n) #for translation
 
 # Maps and plotting
 library(leaflet) # interactive maps
-library(learnr) # interactive tutorials
 library(plotly) # interactive plots
+
+# Making tutorials
+library(learnr) # interactive tutorials
+# remotes::install_github("rstudio-education/gradethis")
+library(gradethis)
 ```
 
 This talk will introduce Shiny and its glorious abilities, with the assumption that you have heard of Shiny but haven't necessarily used it yet. Because there are tons of great examples online, I have highlighted tools that I have found useful and fun. The talk structure will be, more or less:
