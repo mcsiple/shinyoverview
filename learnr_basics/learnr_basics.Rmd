@@ -10,25 +10,39 @@ runtime: shiny_prerendered
 library(tidyverse)
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
-gradethis::gradethis_setup() # answer checking for exercises
+gradethis::gradethis_setup() # add answer checking for exercises
 ```
 
 
-## Topic 1
+## Solutions and code-checking
 
 You can use `learnr` to make tutorials and quizzes. This is super useful when you want to teach a package quickly without dealing with version issues or installation problems. It's also useful for teaching people about a package.
 
 `learnr` uses `runtime: shiny_prerendered` to turn Markdown files into live tutorials. You can also add other Shiny components to Markdown files to make interactive reports, and you can include interactive Shiny components in your tutorial. 
 
-### Exercise 
+### Exercise with a solution
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+*Here's a simple exercise with an empty code chunk provided for entering the answer.* 
 
 Write the R code required to add two plus two:
 
-```{r two-plus-two, exercise=TRUE}
+```{r ex2, exercise=TRUE}
 
 ```
+
+```{r ex2-solution}
+2+2
+```
+
+```{r ex2-code-check}
+grade_code()
+```
+
+To add a "solution" button in the exercise window, add `{r eval = FALSE} gradethis::gradethis_setup()` to the r setup at the beginning of the file, and add another code chunk with the suffix `{r eval = FALSE} -solution`. Using the same example above, add the following chunks to your .Rmd file:
+
+1. The original exercise = TRUE code chunk: r two-plus-two-b  exercise = TRUE
+2. Another code chunk called `{r eval = FALSE} r ex2-solution` containing the code you want them to write
+3. A third code chunk called `{r eval = FALSE} r ex2-code-check` containing a single line: `{r eval = FALSE} grade_code()`
 
 ### Exercise with Code
 
