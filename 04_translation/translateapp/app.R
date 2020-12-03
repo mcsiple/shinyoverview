@@ -46,7 +46,7 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) { #need the "session" at the end
-    # This "observeEvent()" part tells Shiny to observe the input 'selected_language' and change the translation settings based on user input:
+    # The "observeEvent()" part tells Shiny to observe the input 'selected_language' and change the translation settings based on user input:
     observeEvent(input$selected_language, {
         print(paste("Language change:",
                     input$selected_language))
