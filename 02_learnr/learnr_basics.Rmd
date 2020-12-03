@@ -1,0 +1,111 @@
+---
+title: "Tutorial"
+output:
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+gradethis::gradethis_setup() # add answer checking for exercises
+```
+
+## Topic 2
+
+### Exercise with Hint
+
+*Here's an exercise where the chunk is pre-evaluated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+
+Modify the following code to limit the number of rows printed to 5:
+
+```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
+mtcars
+```
+
+```{r print-limit-hint}
+head(mtcars)
+```
+
+### Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+
+
+## Solutions and code-checking
+
+You can use `learnr` to make tutorials and quizzes. This is super useful when you want to teach a package quickly without dealing with version issues or installation problems. It's also useful for teaching people about a package.
+
+`learnr` uses `runtime: shiny_prerendered` to turn Markdown files into live tutorials. You can also add other Shiny components to Markdown files to make interactive reports, and you can include interactive Shiny components in your tutorial. 
+
+### Exercise with a solution
+
+*Here's a simple exercise with an empty code chunk provided for entering the answer.* 
+
+Write the R code required to add two plus two:
+
+```{r ex2, exercise=TRUE}
+
+```
+
+```{r ex2-solution}
+2+2
+```
+
+```{r ex2-code-check}
+grade_code()
+```
+
+To add a "solution" button in the exercise window, add `{r eval = FALSE} gradethis::gradethis_setup()` to the r setup at the beginning of the file, and add another code chunk with the suffix `{r eval = FALSE} -solution`. Using the same example above, add the following chunks to your .Rmd file:
+
+1. The original exercise = TRUE code chunk: r two-plus-two-b  exercise = TRUE
+2. Another code chunk called `{r eval = FALSE} r ex2-solution` containing the code you want them to write
+3. A third code chunk called `{r eval = FALSE} r ex2-code-check` containing a single line: `{r eval = FALSE} grade_code()`
+
+### Exercise with Code
+
+*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+
+Now write a function that adds any two numbers and then call it:
+
+```{r add-function, exercise=TRUE, exercise.lines = 5}
+add <- function() {
+  
+}
+```
+
+
+### Including Shiny components in a `learnr` tutorial
+```{r, echo=FALSE}
+sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
+plotOutput("distPlot")
+```
+
+```{r, context="server"}str()
+output$distPlot <- renderPlot({
+  x <- faithful[, 2]  # Old Faithful Geyser data
+  bins <- seq(min(x), max(x), length.out = input$bins + 1)
+  hist(x, breaks = bins, col = 'darkgray', border = 'white')
+})
+```
