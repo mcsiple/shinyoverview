@@ -1,0 +1,26 @@
+{
+  "cultural_date_format": "%d-%m-%Y",
+  "languages": ["en", "es", "fr"],
+  "translation": [
+      {
+        "en": "Hello Shiny!",
+        "es": "Hola Shiny!",
+        "fr": "Bonjour Shiny!"
+      },
+      {
+      	"en": "Old Faithful Geyser Data",
+      	"es": "Datos del viejo géiser fiel",
+        "fr": "Données du vieux geyser fidèle"
+      },
+      {
+      	"en": "Here is a plot with some data.",
+      	"es": "Aquí hay una gráfica con algunos datos.",
+        "fr": "Voici un graphique avec quelques données."
+      },
+      {
+        "en": "Number of bins:",
+        "es": "Número de contenedores",
+        "fr": "Nombre de bacs"
+      }
+    ]
+}
