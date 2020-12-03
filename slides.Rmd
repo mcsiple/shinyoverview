@@ -43,9 +43,12 @@ class: center, middle
 
 ---
 
-# Open code and data
+# Data and code sharing
 
-Writing and sharing R code is the bee's knees. 
+---
+
+![bowmakers](https://s3.amazonaws.com/cdn.showandtell.film/1b764b9e-a39d-4e19-8ee9-903b098ac7bb.jpeg)
+
 
 ---
 
