@@ -31,14 +31,12 @@ penguins
 
 ### Exercise 1b
 
-Plot a scatterplot of bill length (`bill_length_mm`) vs. bill depth (`bill_depth_mm`) from the `palmerpenguins` dataset.
+Use ggplot to plot a scatterplot of bill length (`bill_length_mm`) vs. bill depth (`bill_depth_mm`) from the `palmerpenguins` dataset.
 
-```{r ex1b, exercise=TRUE}
-ggplot(penguins, 
-       aes (x = bill_length_mm,
-            y = bill_depth_mm)) + 
-  geom_point()
+```{r ex1b, exercise=TRUE, exercise.lines = 5}
+
 ```
+
 
 
 ## Hints
@@ -79,23 +77,12 @@ Write the R code required to add two plus two:
 grade_code()
 ```
 
-To add a "solution" button in the exercise window, add `{r eval = FALSE} gradethis::gradethis_setup()` to the r setup at the beginning of the file, and add another code chunk with the suffix `{r eval = FALSE} -solution`. Using the same example above, add the following chunks to your .Rmd file:
+To add a "solution" button in the exercise window, add `gradethis::gradethis_setup` to the r setup at the beginning of the file, and add another code chunk with the suffix `-solution`. Using the same example above, add the following chunks to your .Rmd file:
 
-1. The original exercise = TRUE code chunk: r two-plus-two-b  exercise = TRUE
-2. Another code chunk called `{r eval = FALSE} r ex2-solution` containing the code you want them to write
-3. A third code chunk called `{r eval = FALSE} r ex2-code-check` containing a single line: `{r eval = FALSE} grade_code()`
+1. The original `exercise = TRUE` code chunk
+2. Another code chunk with the suffix `-solution` containing the code you want them to write
+3. A third code chunk with the suffix `-code-check` containing a single line calling the function`grade_code`
 
-### Exercise with Code
-
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
-
-Now write a function that adds any two numbers and then call it:
-
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
 
 
 ## Quizzes
