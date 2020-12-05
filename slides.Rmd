@@ -1,12 +1,11 @@
 ---
-title: "My best friend Shiny"
-subtitle: "<br/>with xaringan"
+title: "Shiny"
+subtitle: "<br/>for the Quantifish group"
 author: "Megsie Siple"
 institute: "NOAA AFSC - RACE/GAP"
 date: "2020/12/08 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -21,17 +20,6 @@ Image: Allison Horst for rstudio::conf 2019
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-```
-
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_mono_light(base_color = "#23395b")
-# style_mono_accent(
-#   base_color = "#1c5253",
-#   header_font_google = google_font("Josefin Sans"),
-#   text_font_google   = google_font("Montserrat", "300", "300i"),
-#   code_font_google   = google_font("Fira Mono")
-# )
 ```
 
 ---
