@@ -1,5 +1,5 @@
 ---
-title: "Tutorial"
+title: "learnr basics"
 output:
   learnr::tutorial:
     progressive: true
@@ -8,56 +8,58 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(palmerpenguins) #load any packages here that you want to be part of the environment for everyone using the tutorial
 library(learnr)
+
 knitr::opts_chunk$set(echo = FALSE)
 gradethis::gradethis_setup() # add answer checking for exercises
 ```
 
-## Topic 2
+## The basics
+`{learnr}` provides a space where people can write and run code, in an environment that runs on a server. This means that everyone has the same version of R, same package versions, etc. It's useful for teaching coding concepts, especially when you're remote and can't troubleshoot with everyone.
+
+`{learnr}` uses `runtime: shiny_prerendered` to turn Markdown files into live tutorials. 
+
+### Exercise 1a
+Look at the `penguins` dataset from `{palmerpenguins}`.
+
+
+```{r ex1a, exercise=TRUE}
+penguins 
+```
+*Note that the `penguins` object is already in the environment!
+
+### Exercise 1b
+
+Plot a scatterplot of bill length (`bill_length_mm`) vs. bill depth (`bill_depth_mm`) from the `palmerpenguins` dataset.
+
+```{r ex1b, exercise=TRUE}
+ggplot(penguins, 
+       aes (x = bill_length_mm,
+            y = bill_depth_mm)) + 
+  geom_point()
+```
+
+
+## Hints
 
 ### Exercise with Hint
 
-*Here's an exercise where the chunk is pre-evaluated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+*Here's an exercise where the chunk is pre-evaluated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediately below labeled `print-limit-hint`.*
 
-Modify the following code to limit the number of rows printed to 5:
+Filter the penguins dataset to Adelie penguins only.
 
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
+```{r penguinfilter, exercise=TRUE, exercise.eval=TRUE}
+penguins
 ```
 
-```{r print-limit-hint}
-head(mtcars)
+```{r penguinfilter-hint}
+penguins %>% filter(species == "Adelie")
 ```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
-)
-```
-
 
 ## Solutions and code-checking
 
-You can use `learnr` to make tutorials and quizzes. This is super useful when you want to teach a package quickly without dealing with version issues or installation problems. It's also useful for teaching people about a package.
-
-`learnr` uses `runtime: shiny_prerendered` to turn Markdown files into live tutorials. You can also add other Shiny components to Markdown files to make interactive reports, and you can include interactive Shiny components in your tutorial. 
+All the previous sections just provide a "safe" coding environment. If you want to quiz people on a topic, you need to provide a solution in the .Rmd file. 
 
 ### Exercise with a solution
 
@@ -96,16 +98,27 @@ add <- function() {
 ```
 
 
-### Including Shiny components in a `learnr` tutorial
-```{r, echo=FALSE}
-sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
-plotOutput("distPlot")
+## Quizzes
+### Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
 ```
 
-```{r, context="server"}str()
-output$distPlot <- renderPlot({
-  x <- faithful[, 2]  # Old Faithful Geyser data
-  bins <- seq(min(x), max(x), length.out = input$bins + 1)
-  hist(x, breaks = bins, col = 'darkgray', border = 'white')
-})
-```
