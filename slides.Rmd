@@ -17,18 +17,10 @@ class: center, middle
 
 # 1 - What is Shiny? 
 
----
-
-
 
 ---
 
 # Data and code sharing
-
----
-
-![bowmakers](https://s3.amazonaws.com/cdn.showandtell.film/1b764b9e-a39d-4e19-8ee9-903b098ac7bb.jpeg)
-
 
 ---
 
@@ -61,9 +53,132 @@ install.packages("shiny")
 
 ---
 
+class: center, middle
+
 # Getting data into and out of Shiny
 
-Shiny is a great way to 
+
+---
+
+
+# Get data into a Shiny app
+
+Shiny can accept data from various file types. 
+
+You can get data into Shiny from:
+- a file the user uploads
+- a database
+- a persistent file packaged with your app
+
+---
+
+# User uploads data
+If you want to design your app so that people can bring in their own data:
+
+Add a file upload input in the UI using the function `fileInput()`. In the `server` function, access the uploaded files via `input$mydata`:
+```{r eval=FALSE}
+ui <- fluidPage(
+  # App title ----
+  titlePanel("Uploading Files"),
+  sidebarLayout(
+    sidebarPanel(
+      fileInput("mydata", "Choose CSV File",
+                multiple = FALSE,
+                accept = c("text/csv",
+                         "text/comma-separated-values,text/plain",
+                         ".csv")),
+```
+
+---
+
+# Connect to a database
+
+Shiny can access databases through the interface using the `{DBI}` and `{pool}` packages. 
+
+```{r eval=FALSE}
+library(shiny)
+library(DBI)
+
+ui <- fluidPage(
+  numericInput("nrows", "Enter the number of rows to display:", 5),
+  tableOutput("tbl")
+)
+
+server <- function(input, output, session) {
+  output$tbl <- renderTable({
+    conn <- dbConnect(
+      drv = RMySQL::MySQL(),
+      dbname = "shinydemo",
+      host = "shiny-demo.csa7qlmguqrf.us-east-1.rds.amazonaws.com",
+      username = "guest",
+      password = "guest")
+    on.exit(dbDisconnect(conn), add = TRUE)
+    dbGetQuery(conn, paste0(
+      "SELECT * FROM City LIMIT ", input$nrows, ";"))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+---
+
+# File packaged with your app
+
+You can publish small data files that sit on the server with your app. For example, if you want 
+
+---
+
+# Data in/out resources for Shiny
+
+RStudio's [best practices for dashboards](https://db.rstudio.com/best-practices/dashboards/) shows how to connect to databases in Shiny
+
+---
+
+# Downloading from Shiny
+You can download data from a Shiny app using `downloadLink()` in the ui and `downloadHandler()` in the server:
+
+```{r eval=FALSE}
+ui <- fluidPage(
+  downloadLink("downloadData", "Download")
+)
+
+server <- function(input, output) {
+  # Our dataset
+  data <- mtcars
+
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("data-", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      write.csv(data, file)
+    }
+  )
+}
+```
+
+---
+
+# Downloading from Shiny
+
+- Download CSV or txt files from Shiny apps
+
+--
+
+- Generate reports in Markdown that are knitted to html files (details on how to do that [here](https://shiny.rstudio.com/articles/generating-reports.html))
+
+--
+
+- You can also download images that have been generated in the app (e.g., download plots from the app)
+
+---
+
+# More resources for dealing with data in Shiny
+
+Dean Attali's [Persistent Data Storage With Shiny](https://daattali.com/shiny/persistent-data-storage/) app 
+
+[This](https://shiny.rstudio.com/articles/persistent-data-storage.html) blog post about data storage in Shiny (also by Dean Attali) 
 
 ---
 # Using `learnr`
@@ -172,6 +287,11 @@ If you are building a tool for NOAA purposes, you should:
 
 class: center, middle
 
-# Thanks!
+# Fin!
+
+**More Shiny resources:**
+We love a [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+
 
 Slides created using the R package [**xaringan**](https://github.com/yihui/xaringan).
