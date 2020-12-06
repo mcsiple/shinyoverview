@@ -20,7 +20,6 @@ i18n$set_translation_language("en") # set default language
 # Define UI
 ui <- fluidPage(
     shiny.i18n::usei18n(i18n),
-    
     titlePanel(i18n$t("Hello Shiny!"), windowTitle = NULL),
     sidebarLayout(
         sidebarPanel(
