@@ -28,6 +28,6 @@ library(gradethis)
 This talk will introduce Shiny and its glorious abilities, with the assumption that you have heard of Shiny but haven't necessarily used it yet. Because there are tons of great examples online, I have highlighted tools that I have found useful and fun. The talk structure will be, more or less:
 
 1. The building blocks: basic `shiny` functionality
-2. Interactive tools: using interactive features for plotting and mapping (using `ggplotly` and `leaflet`)
-3. Shiny as a teaching tool: `learnr` 
-4. Accessibility and translation in Shiny
+2. Getting data into and out of `shiny`
+3. Translating `shiny` apps
+4. Shiny as a teaching tool using `learnr` 
