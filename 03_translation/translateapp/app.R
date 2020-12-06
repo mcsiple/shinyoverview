@@ -11,9 +11,10 @@
 library(shiny)
 library(shiny.i18n)
 
-i18n <- Translator$new(translation_json_path = here::here("04_translation",
-                                                          "translateapp",
-                                                          "translationkey.json"))
+i18n <- Translator$new(
+    translation_json_path = here::here("04_translation",
+                                          "translateapp",
+                                          "translationkey.json"))
 i18n$set_translation_language("en") # set default language
 
 # Define UI
@@ -66,11 +67,10 @@ server <- function(input, output, session) { #need the "session" at the end
                         inputId = "selected_language",
                         label = "Language",
                         choiceNames = c("English", "Español", "Français"),
-                        choiceValues = i18n$get_languages(), #c("en","es","fr"),
+                        choiceValues = i18n$get_languages(),
                         selected = i18n$get_key_translation(),
                         inline = FALSE
                     )
-                    
                 ),
                 
                 # Show a plot of the generated distribution
