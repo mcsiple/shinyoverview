@@ -60,11 +60,22 @@ class: center, middle
 
 ## This is the same in marine science! And Shiny can help us with many of these tasks.
 
+
+---
+
+class: center, middle
+
+Shiny can be a little gnarly at first.
+
+![stinkspirit](https://i.gifer.com/TR2i.gif)
+
 ---
 
 # Outline
 
 1. `shiny` basics - when to use it, how to do it
+
+--
 
 2. Working with data in Shiny apps
 
@@ -73,14 +84,24 @@ class: center, middle
   Connecting to a database using `{DBI}` and `{pool}`
   
   Markdown reports
+  
+--
 
 3. Lessons I learned from developing "mmBIET"
 
 --
 
-4. *Translating your Shiny apps using `{shiny.18n}`*
+If you'd like to follow along, clone this directory and follow the examples!
+[https://github.com/MargaretSiple-NOAA/shinyoverview](https://github.com/MargaretSiple-NOAA/shinyoverview)
 
-5. *Using Shiny to supercharge your remote teaching with `{learnr}`*
+--
+
+Available in the repo but optional for today:
+
+> 4. *Translating your Shiny apps using `{shiny.18n}`*
+
+> 5. *Using Shiny to supercharge your remote teaching with `{learnr}`*
+
 
 ---
 
@@ -140,9 +161,7 @@ You can choose between single (**app.R**) or multiple files (**ui.R** and **serv
 
 ---
 
-# Shiny structure: user interface (ui) and server
-
-### Each Shiny app has two components:
+# Each Shiny app has two components
 
 The **user interface (`ui`)** object dictates the appearance of the app. UI functions write HTML. For something to appear in your app, it needs to be in the UI.
 
@@ -150,13 +169,17 @@ The **user interface (`ui`)** object dictates the appearance of the app. UI func
 
 The **`server()` function** contains rendering expressions that create the objects to display. 
 
+
+
+
+
 The server function and UI object are passed to the `shinyApp()` function to create a Shiny app object.
 
 ---
 
 # **ui.R**/server.R
 
-
+.pull-left[
 The ui looks like this:
 
 ```{r eval=FALSE}
@@ -164,18 +187,23 @@ ui <- fluidPage(
     titlePanel("Old Faithful Geyser Data"),
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
+*            sliderInput("bins",
                         "Number of bins:",
                         min = 1,
                         max = 50,
                         value = 30)),
         mainPanel(
-           plotOutput("distPlot"))
+*           plotOutput("distPlot"))
     )
 )
 ```
+]
+
+.pull-right[
+The corresponding ui looks like this:
 
 ![basicui](img/basicui.png)
+]
 
 ---
 
@@ -187,25 +215,23 @@ The ui code contains the following information:
   - `fluidPage()` puts elements in rows that can include columns `r emo::ji("cake")`
   - `navbarPage()` has a navigation bar `r emo::ji("file")`
 
-2. Layout elements (`sidebarLayout()` etc)
+2. Layout elements (`sidebarLayout()` etc.)
 
 3. Theme information (e.g., `{shinythemes}`)
 
----
+--
 
-# **ui.R**/server.R
+4. Output objects (`plotOutput()`, etc.)
 
-3. Output objects (`plotOutput()`, `textOutput()` etc.)
+5. Input objects (`sliderInput()`,`fileInput()` etc.)
 
-4. Input objects (`sliderInput()`,`fileInput()` etc.)
-
-*Input objects are what link the user interface to the R code on the server.*
+*Input objects link the user interface to the R code on the server.*
 
 ---
 
 # ui.R/**server.R**
 
-The server builds a list-like object called `output` that contains all the code needed to produce the contents of your app.
+The server builds a list-like object called `output`. The contents of `output` are displayed in the ui.
 
 ```{r eval= FALSE}
 server <- function(input, output) {
@@ -221,23 +247,69 @@ server <- function(input, output) {
 
 ---
 
+# **ui.R**/**server.R**
+
+The server builds a list-like object called `output`. `output` objects are displayed in the ui. Here is how they are linked:
+
+.pull-left[
+```{r eval= FALSE}
+server <- function(input, output) {
+*    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    })
+}
+```
+]
+
+.pull-right[
+```{r eval=FALSE}
+ui <- fluidPage(
+    titlePanel("Old Faithful Geyser Data"),
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)),
+        mainPanel(
+*           plotOutput("distPlot"))
+    )
+)
+```
+]
+---
+
+# What's on the server?
+
+R code... mostly :)
+
+--
+
+![spirited](https://i.gifer.com/3QvT.gif)
+
+---
+
 # ui.R/**server.R**
 
-- **Rendering functions** (`renderImage()`, `renderPlot()`, `renderTable()`)
+- **Rendering functions** (`renderPlot()`, `renderTable()`, etc.)
   - Build a new object to display every time the inputs change
 
 --
 
 - **Reactive expressions**
   - `reactive()` caches reactive objects so you can access them later in the server logic -- very important!
-  - `eventReactive()` creates reactive objects but only if a specific input changes (e.g., a "Run Analysis!" button)
+  - `eventReactive()` creates reactive objects but only when a specific input changes (e.g., a "Run Analysis!" button is clicked)
 
 --
 
-- **Observe expressions** - only change the value of a result
-  - Changes the ui based on input, e.g.,
-    - autopopulate default values in a form if a user has selected a default
-    - change the range for one input based on another input
+- **Observe expressions** change the ui based on input, e.g.,
+  - autopopulate default values in a form if a user has selected a default
+  - change the range for one input based on another input
 
 ---
 
@@ -272,10 +344,10 @@ If you want to design your app so that people can bring in their own data:
 Add a file upload input in the UI using the function `fileInput()`. In the `server` function, access the uploaded files via `input$mydata`:
 ```{r eval=FALSE}
 ui <- fluidPage(
-  # App title ----
   titlePanel("Uploading Files"),
   sidebarLayout(
     sidebarPanel(
+      # refer to input$mydata in the server code to reference this object:
       fileInput("mydata", "Choose CSV File",
                 multiple = FALSE,
                 accept = c("text/csv",
@@ -323,12 +395,6 @@ You can publish small data files that sit on the server with your app. You can l
 
 ---
 
-# Data in/out resources for Shiny
-
-RStudio's [best practices for dashboards](https://db.rstudio.com/best-practices/dashboards/) shows how to connect to databases in Shiny
-
----
-
 # Downloading from Shiny
 
 You can download data from a Shiny app using `downloadLink()` in the ui and `downloadHandler()` in the server:
@@ -372,19 +438,24 @@ server <- function(input, output) {
 
 # Downloading HTML files from Shiny
 
-This is really helpful if you want to generate a report or a certificate.
-
---
-
 An HTML report consists of two pieces:
 
 --
 
-1) A `report.Rmd` file with a yaml header providing the objects generated in the app that should be passed to the report
+1) A `report.Rmd` template file with a yaml header specifying the objects passed from Shiny
 
+```{yaml eval=FALSE}
+---
+title: "My Shiny app: the report"
+output: html_document
+params:
+  obj_to_pass1: NA
+  obj_to_pass2: NA
+---
+```
 --
 
-2) An object `output$report` in the server logic 
+2) An object `output$report` in the server logic
 
 ```{r eval=FALSE}
 output$report <- downloadHandler(
@@ -407,6 +478,8 @@ Dean Attali's [Persistent Data Storage With Shiny](https://daattali.com/shiny/pe
 
 [This](https://shiny.rstudio.com/articles/persistent-data-storage.html) blog post about data storage in Shiny (also by Dean Attali)
 
+RStudio's [best practices for dashboards](https://db.rstudio.com/best-practices/dashboards/) shows how to connect to databases in Shiny
+
 ---
 
 class: center, middle, inverse
@@ -417,11 +490,13 @@ class: center, middle, inverse
 
 class: center, middle
 
-# Improving Shiny app accessibility
+# Lessons I learned from developing a Shiny app
+
+![droplets](https://i.gifer.com/g5.gif)
 
 ---
 
-# Shiny apps for all
+# UI is very important
 
 Designing a good ui is hard! And Shiny defaults are not the most intuitive / appealing / accessible version they can be.
 
@@ -451,122 +526,7 @@ If you are designing an app for management, a good ui is essential.
 
 ---
 
-# Translating your Shiny app
-
-For wider utility, you can translate your Shiny app into other languages.
-
---
-
-`{shiny.i18n}` (from [Appsilon](https://appsilon.com/internationalization-of-shiny-apps-i18n/) ) provides translation for shiny apps
-
---
-
-```{r eval=FALSE}
-devtools::install_github("Appsilon/shiny.i18n")
-
-library(shiny)
-library(shiny.i18n)
-
-* i18n <- Translator$new(translation_json_path = "translations/translation.json")
-```
-
----
-
-# Translating your shiny app
-
-You can provide either a .json file with all the translations, or a CSV with a column for each language.
-
---
-
-The `i18n$t()` wrapper indicates text to be translated, e.g.:
-
-```{r eval = FALSE}
-sliderInput("bins",
-*            i18n$t("Number of bins:"), # translation wrapper
-            min = 1,
-            max = 50,
-            value = 30)
-
-```
-
----
-
-class: center, middle
-# Supercharge your remote teaching using Shiny tools: `learnr`
-
----
-
-# Using `learnr`
-`{learnr}` uses `runtime: shiny_prerendered` to turn Markdown files into live tutorials. 
-
---
-
-This is great for writing code in a 'controlled environment'
-when you're:
-- teaching coding concepts remotely
-- demonstrating how a specific package is used
-- any situation where you want to remotely set up the environment
-
----
-
-# Getting started with `learnr`
-```{r eval= FALSE}
-install.packages("learnr")
-library(learnr)
-```
-
-To make a new tutorial from the RStudio IDE, go to New File --> R Markdown --> From Template --> Interactive Tutorial {learnr}
-
----
-
-# `learnr` tutorials - 1
-A learnr tutorial is an .Rmd script a few additional features:
-
-1. The output is a `learnr::tutorial`
-
-2. The runtime (in yaml header) is `shiny_prerendered` 
-
-3. There is some `learnr`-related setup code
-
-4. There are `knitr` chunks which have custom options such as `exercise` and `solution`
-
- (from Nischal Shrestha's, great blog post [Learning learnr](https://education.rstudio.com/blog/2020/07/learning-learnr/) )
----
-
-# `learnr` tutorials - 2
-You load the packages that people will need for the tutorial in the `setup` code chunk. 
-
-```{r eval=FALSE}
-library(tidyverse)
-library(palmerpenguins) #load any packages here that you want to be part of the environment for everyone using the tutorial
-library(learnr)
-
-knitr::opts_chunk$set(echo = FALSE)
-```
-
----
-# `learnr` tutorials - 3
-The `exercise = TRUE` code chunks in a `learnr` document contain exercises, hints, and solutions.
-
-![learnrchunks](img/learnr_chunks.png)
----
-
-# More `learnr` resources
-
-Allison Horst's [post about learnr](https://education.rstudio.com/blog/2020/05/learnr-for-remote/) on RStudio Education
-
-Angela Li's [post on publishing learnr tutorials](https://cran.r-project.org/web/packages/learnr/vignettes/shinyapps-publishing.html)
-
-Desirée de Leon's [post on putting learnr tutorials in a package](https://education.rstudio.com/blog/2020/09/delivering-learnr-tutorials-in-a-package/)
-
----
-class: center, middle, inverse
-
-# 04_learnr/learnr_basics.Rmd
-
----
-
-# Publishing your Shiny app
+# You can publish Shiny apps!
 
 If you've put a lot of time into making a Shiny app, you should get credit! 
 The publication/credit avenues are unconventional for Shiny apps, but they DO exist.
@@ -578,17 +538,17 @@ The publication/credit avenues are unconventional for Shiny apps, but they DO ex
 
 ---
 
-# What if I am a NOAA employee?
+# Having fun is good
 
-If you are building a tool for NOAA purposes, you should:
+class: center, middle
 
-1. Host it on your NOAA GitHub account if it's a NOAA project. If not, host on your personal account and fork a copy to the NOAA account if necessary
-2. Ensure good software design practices, including having documentation related to the code as well as a separate users guide
-3.Structure your R code and folders consistent with a accepted best practices
-4. Get a code review (this should ideally be someone who also can review the content, if there is a model in your `server.R`)
-5. Include testing (and examples if it makes sense-- if it's only a shiny app and not a whole package, it may not be needed). Use a package like `testthat`.  You can also use github actions to automate this in your repository
+![duckspirits](https://i.gifer.com/SLcP.gif)
 
-*Modified from Corinne Bassin's recommendations to me*
+---
+
+.pull-left[
+![catapp](img/)
+]
 
 ---
 
