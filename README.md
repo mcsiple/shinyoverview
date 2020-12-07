@@ -32,5 +32,5 @@ This talk will introduce Shiny and its glorious abilities, with the assumption t
 
 These latter two sections are optional but materials are included for you to explore them on your own:
 
-4. Translating `shiny` apps
-5. Shiny as a teaching tool using `learnr` 
+4. Translating `shiny` apps using `{shiny.18n}`
+5. Shiny as a teaching tool using `{learnr}` 
