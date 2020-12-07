@@ -12,8 +12,7 @@ library(shiny)
 library(shiny.i18n)
 
 i18n <- Translator$new(
-    translation_json_path = here::here("04_translation",
-                                          "translateapp",
+    translation_json_path = here::here("03_translation",
                                           "translationkey.json"))
 i18n$set_translation_language("en") # set default language
 
