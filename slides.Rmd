@@ -15,16 +15,97 @@ output:
 
 class: center, middle
 
-# 1 - What is Shiny? 
+# Hello! 
 
 
 ---
 
-# Insert orchestra slides here
+class: center, middle
+![sempe](img/sempe.jpg)
 
 ---
 
-# When should I use Shiny?
+# Marine science is like an orchestra
+
+Each musician has areas where they’re very specialized, and areas where they are clueless
+
+--
+
+What we do is a combination of highly technical skilled work and more whimsical multitasking/communicating
+
+--
+
+But we’re all working together to try to make a big, beautiful thing happen
+
+---
+
+class: center, middle
+![os1](img/OSSCS1.jpg)
+
+---
+
+class: center, middle
+![os2](img/OSSCS2.jpg)
+
+---
+# How we deal with complexity in an orchestra setting: 
+
+### Clean it up
+
+### Use building blocks
+
+### Streamline our communications
+
+### People are the special ingredient
+
+## This is the same in marine science! And Shiny can help us with many of these tasks.
+
+---
+
+# Outline
+
+1. `shiny` basics - when to use it, how to do it
+
+2. Working with data in Shiny apps
+
+  User uploads & downloads
+  
+  Connecting to a database using `{DBI}` and `{pool}`
+  
+  Markdown reports
+
+3. Lessons I learned from developing "mmBIET"
+
+--
+
+4. *Translating your Shiny apps using `{shiny.18n}`*
+
+5. *Using Shiny to supercharge your remote teaching with `{learnr}`*
+
+---
+
+# Why I learned Shiny
+
+.pull-left[
+<img src=img/Common_Striped_Boyd.jpg>
+.caption[
+**Image:** Jeff Moore
+]
+]
+
+.pull-right[
+<img src=img/mmbiet.png>
+]
+
+---
+
+# What is Shiny?
+
+![whatisshiny](img/whatisshiny.png)
+
+---
+
+# When is Shiny useful?
 
 When we want to make R code accessible outside of an R or RStudio environment. For example,
 
@@ -38,18 +119,11 @@ When we want to make R code accessible outside of an R or RStudio environment. F
 
 --
 
-- streamlining certain code-intensive things (like database queries or visualizing outputs from an analysis)
-
-
----
-
-# What *is* Shiny, anyway?
-
-![whatisshiny](img/whatisshiny.png)
+- streamlining certain code-intensive things (like database queries or visualizing bulky simulation outputs)
 
 ---
 
-# Installing Shiny
+# Starting a new Shiny app
 
 Install **shiny**:
 
@@ -57,11 +131,7 @@ Install **shiny**:
 install.packages("shiny")
 ```
 
----
-
-# Starting a new Shiny app
-
-From The RStudio IDE, pick New File --> Shiny Web App
+From The RStudio IDE, pick `New File -> Shiny Web App`
 
 You can choose between single (**app.R**) or multiple files (**ui.R** and **server.R**)
 
@@ -74,15 +144,18 @@ You can choose between single (**app.R**) or multiple files (**ui.R** and **serv
 
 ### Each Shiny app has two components:
 
-The **user interface (`ui`)** object dictates the appearance of the app. Functions in the ui write HTML for the website. 
+The **user interface (`ui`)** object dictates the appearance of the app. UI functions write HTML. For something to appear in your app, it needs to be in the UI.
+
+***
 
 The **`server()` function** contains rendering expressions that create the objects to display. 
 
-The server function and ui object are passed to the `shinyApp()` function to create a Shiny app object.
+The server function and UI object are passed to the `shinyApp()` function to create a Shiny app object.
 
 ---
 
 # **ui.R**/server.R
+
 
 The ui looks like this:
 
@@ -95,36 +168,38 @@ ui <- fluidPage(
                         "Number of bins:",
                         min = 1,
                         max = 50,
-                        value = 30)
-        ),
+                        value = 30)),
         mainPanel(
-           plotOutput("distPlot")
-        )
+           plotOutput("distPlot"))
     )
 )
 ```
 
+![basicui](img/basicui.png)
+
 ---
 
 # **ui.R**/server.R
+
+The ui code contains the following information: 
 
 1. The UI type 
   - `fluidPage()` puts elements in rows that can include columns `r emo::ji("cake")`
   - `navbarPage()` has a navigation bar `r emo::ji("file")`
 
-2. Layout elements (`sidebarLayout()`, `splitLayout()`, `verticalLayout()` etc)
+2. Layout elements (`sidebarLayout()` etc)
 
-3. Theme information (e.g., bootstrap themes from `{shinythemes}`)
+3. Theme information (e.g., `{shinythemes}`)
 
 ---
 
 # **ui.R**/server.R
 
-3. Output objects (`renderImage()`, `renderPlot()`, `renderTable()`)
+3. Output objects (`plotOutput()`, `textOutput()` etc.)
 
-4. Input objects (`sliderInput()`, `numericInput()`, `fileInput()`) (sometimes called 'widgets')
+4. Input objects (`sliderInput()`,`fileInput()` etc.)
 
-*These are what link the user interface to the R code on the server.*
+*Input objects are what link the user interface to the R code on the server.*
 
 ---
 
