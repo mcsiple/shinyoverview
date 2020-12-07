@@ -4,20 +4,19 @@ Scripts for a presentation on Shiny and its utility, originally written for the 
 
 ***
 
-If you want to try out the app examples, you should install the following packages:
+If you want to try out the app examples, install the following packages:
 
 ```{r}
 # Basics
 library(tidyverse)
+library(kableExtra) # nice tables
 
 # Shiny
 library(shiny)
-library(shinyjs) # for javascript 
-library(shiny.i18n) #for translation
+library(shinythemes) # bootstrap themes
 
-# Maps and plotting
+# Maps
 library(leaflet) # interactive maps
-library(plotly) # interactive plots
 
 # Making tutorials
 library(learnr) # interactive tutorials
@@ -29,5 +28,9 @@ This talk will introduce Shiny and its glorious abilities, with the assumption t
 
 1. The building blocks: basic `shiny` functionality
 2. Getting data into and out of `shiny`
-3. Translating `shiny` apps
-4. Shiny as a teaching tool using `learnr` 
+3. Lessons I learned during the app development process
+
+These latter two sections are optional but materials are included for you to explore them on your own:
+
+4. Translating `shiny` apps
+5. Shiny as a teaching tool using `learnr` 
