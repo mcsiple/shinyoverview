@@ -6,6 +6,7 @@
 #
 #    http://shiny.rstudio.com/
 #
+# This app loads data from the RAM legacy stock assessment database and provides the option for users to download a CSV of the filtered data.
 
 library(tidyverse)
 library(shiny)
@@ -18,10 +19,10 @@ load(here::here("02_dataindataout",
 
 # Define UI
 shinyUI(fluidPage(
-    theme = shinytheme("cosmo"), # define theme here
+    theme = shinytheme("cosmo"), # define theme
     titlePanel("Explore the RAM legacy database"),
     
-    # Sidebar with a slider input for number of bins
+    # Sidebar with options for what to display and download
     sidebarLayout(
         sidebarPanel(
             selectInput(inputId = "which_stocklong",
@@ -42,9 +43,10 @@ shinyUI(fluidPage(
         mainPanel(
             h2("Your stock from RAM"),
             plotOutput("ts_plot"),
-            h2("Preview of your RAM estimates"),
+            h2("Estimates in RAM for your stock"),
             tableOutput("bioparamHead"),
             h2("Download a CSV"),
+            p("Want to download the RAM legacy database entries for your stock of choice? Select a stock above and click below."),
             downloadButton(outputId = "summary",
                            label = "Download CSV")
         ) # /mainPanel <-- mark the ends of your ui components

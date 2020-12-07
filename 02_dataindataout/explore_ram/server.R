@@ -13,6 +13,7 @@ library(shiny)
 shinyServer(function(input, output) {
     
     subsetted_data <- reactive({
+        
         df <- timeseries_values_views %>% 
             filter_at(vars(TBbest,TCbest, ERbest), any_vars(!is.na(.))) %>%
             filter(stocklong == input$which_stocklong) 
@@ -26,6 +27,12 @@ shinyServer(function(input, output) {
     
     # Time series that the user has selected
     output$ts_plot <- renderPlot({
+        # provide a nice error message that does not strike panic into the user's heart:
+        validate( 
+            need(input$which_ts != "",
+                 "Please select a time series to display")
+        )
+        
         df <- subsetted_data() %>% # Here, we access the "reactive object" subsetted_data
             select(year, input$which_ts) %>%
             pivot_longer(cols = input$which_ts)
@@ -37,7 +44,7 @@ shinyServer(function(input, output) {
             xlab("Year") +
             ylab("Value of estimate") +
             facet_wrap(~name) +
-            theme_minimal(base_size = 14) +
+            theme_minimal(base_size = 16) +
             theme(legend.position = 'none')
     })
     
