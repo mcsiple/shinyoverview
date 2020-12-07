@@ -23,18 +23,23 @@ shinyUI(fluidPage(
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
-            # sliderInput("bins",
-            #             "Number of bins:",
-            #             min = 1,
-            #             max = 50,
-            #             value = 30)
+            selectInput(inputId = "which_stocklong",
+                        label = "Select a stock:",
+                        choices = unique(timeseries_values_views$stocklong)),
+            
+            checkboxGroupInput(inputId = "which_ts",
+                        label = "Select a time series to display:",
+                        choiceNames = c("Total biomass",
+                        "Total catch",
+                        "Exploitation rate"),
+                        choiceValues = c("TBbest","TCbest","ERbest")
+                        )
         ),
 
         # Show a plot of the generated distribution
         mainPanel(
-            #plotOutput("distPlot"),
-            tableOutput("bioparamHead")
-            
+            tableOutput("bioparamHead"),
+            plotOutput("ts_plot")
         )
     )
 ))

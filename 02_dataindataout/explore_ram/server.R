@@ -11,21 +11,32 @@ library(shiny)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-
-    # output$distPlot <- renderPlot({
-    # 
-    #     # generate bins based on input$bins from ui.R
-    #     x    <- faithful[, 2]
-    #     bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    # 
-    #     # draw the histogram with the specified number of bins
-    #     hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    #     print(head(bioparams))
-    # })
     
     output$bioparamHead <- renderTable({
         x <- timeseries_values_views
         head(x)
+    })
+    
+    output$ts_plot <- renderPlot({
+        stocks_w_data <- timeseries_values_views %>% 
+            filter_at(vars(TBbest,TCbest, ERbest), any_vars(!is.na(.)))
+        
+        df <- stocks_w_data %>%
+            filter(stocklong == input$which_stocklong) %>%
+            select(year, input$which_ts) %>%
+            pivot_longer(cols = input$which_ts)
+        
+        df %>% 
+            ggplot(aes(x = year, y = value, colour = name) ) +
+            geom_line(lwd = 1.1) +
+            scale_colour_viridis_d("Time series") +
+            labs(title = "Time series selected") +
+            xlab("Year") +
+            ylab("Value of estimate") +
+            facet_wrap(~name) +
+            theme_minimal() +
+            theme(legend.position = 'none')
+        
     })
 
 })
