@@ -6,8 +6,7 @@
 #
 #    http://shiny.rstudio.com/
 #
-
-library(shiny)
+# This app loads data from the RAM legacy stock assessment database and provides the option for users to download a CSV of the filtered data.
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -25,7 +24,7 @@ shinyServer(function(input, output) {
         head(x)
     })
     
-    # Time series that the user has selected
+    # Plot of the time series selected by the user
     output$ts_plot <- renderPlot({
         # provide a nice error message that does not strike panic into the user's heart:
         validate( 
@@ -43,7 +42,7 @@ shinyServer(function(input, output) {
             scale_colour_viridis_d("Time series") +
             xlab("Year") +
             ylab("Value of estimate") +
-            facet_wrap(~name) +
+            facet_wrap(~name, scales = "free_y") +
             theme_minimal(base_size = 16) +
             theme(legend.position = 'none')
     })

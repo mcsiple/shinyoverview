@@ -12,43 +12,53 @@ library(tidyverse)
 library(shiny)
 library(shinythemes)
 
-load(here::here("02_dataindataout",
-                "explore_ram",
-                "data",
-                "DBdata[asmt][v4.491].RData"))
+source(here::here(
+  "02_dataindataout",
+  "explore_ram",
+  "data",
+  "loadDBdata[asmt][v4.491].r"
+))
 
 # Define UI
-shinyUI(fluidPage(
+shinyUI(
+  fluidPage(
     theme = shinytheme("cosmo"), # define theme
     titlePanel("Explore the RAM legacy database"),
-    
+
     # Sidebar with options for what to display and download
     sidebarLayout(
-        sidebarPanel(
-            selectInput(inputId = "which_stocklong",
-                        label = "Select a stock:",
-                        choices = unique(timeseries_values_views$stocklong)
-                        ),
-            
-            checkboxGroupInput(inputId = "which_ts",
-                               label = "Select a time series to display:",
-                               choiceNames = c("Total biomass",
-                                               "Total catch",
-                                               "Exploitation rate"),
-                               choiceValues = c("TBbest", "TCbest", "ERbest"),
-                               selected = "TBbest"
-            ) #/checkboxGroupInput
-        ), # /sidebarPanel
-        
-        mainPanel(
-            h2("Your stock from RAM"),
-            plotOutput("ts_plot"),
-            h2("Estimates in RAM for your stock"),
-            tableOutput("bioparamHead"),
-            h2("Download a CSV"),
-            p("Want to download the RAM legacy database entries for your stock of choice? Select a stock above and click below."),
-            downloadButton(outputId = "summary",
-                           label = "Download CSV")
-        ) # /mainPanel <-- mark the ends of your ui components
+      sidebarPanel(
+        selectInput(
+          inputId = "which_stocklong",
+          label = "Select a stock:",
+          choices = unique(timeseries_values_views$stocklong)
+        ),
+
+        checkboxGroupInput(
+          inputId = "which_ts",
+          label = "Select a time series to display:",
+          choiceNames = c(
+            "Total biomass",
+            "Total catch",
+            "Exploitation rate"
+          ),
+          choiceValues = c("TBbest", "TCbest", "ERbest"),
+          selected = "TBbest"
+        ) # /checkboxGroupInput
+      ), # /sidebarPanel
+
+      mainPanel(
+        h3("Your stock from RAM"),
+        plotOutput("ts_plot"),
+        h3("Estimates in RAM for your stock"),
+        tableOutput("bioparamHead"),
+        h3("Download a CSV"),
+        p("Want to download the RAM legacy database entries for your stock of choice? Click below."),
+        downloadButton(
+          outputId = "summary",
+          label = "Download CSV"
+        )
+      ) # /mainPanel <-- mark the ends of your ui components
     ) # /sidebarLayout
-))
+  )
+)

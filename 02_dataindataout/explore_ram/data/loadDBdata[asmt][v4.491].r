@@ -108,7 +108,10 @@
 # Once the DBdata.RData file is in the working directory, simply run the following command to
 # load up the database data into matrix/dataframe files for the assessment only version of the database.
 
+print("Hi! Hello!")
 
-load("DBdata[asmt][v4.491].RData")
-
+load(here::here("02_dataindataout",
+           "explore_ram",
+           "data",
+           "DBdata[asmt][v4.491].RData"))
 
