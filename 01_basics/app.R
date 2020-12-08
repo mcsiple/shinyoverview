@@ -4,7 +4,7 @@
 
 # **** optional exercise! ***** #
 # 1) Change the dog breed selectInput() to radio buttons. Since there are a lot of breeds, just make the options Mischling klein, Chihuahua, Labrador Retriever, and Jack Russel Terrier (the four most popular breeds)
-# 2) See how the dogs dataframe is filtered the same way in each output obejct? Turn the filtered dogs dataframe into a reactive object instead, using rdogs <- reactive(). Remember that when you call a reactive object, you have to put open and closed parens after it, e.g., my_object()
+# 2) See how the dogs dataframe is filtered the same way in each output object? Turn the filtered dogs dataframe into a reactive object instead, using rdogs <- reactive(). Remember that when you call a reactive object, you have to put open and closed parens after it, e.g., my_object()
 
 library(tidyverse)
 library(kableExtra)

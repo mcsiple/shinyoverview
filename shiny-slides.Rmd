@@ -94,7 +94,7 @@ Shiny can be a little gnarly at first.
 --
 
 If you'd like to follow along, clone this directory and follow the examples!
-[https://github.com/MargaretSiple-NOAA/shinyoverview](https://github.com/MargaretSiple-NOAA/shinyoverview)
+[https://github.com/mcsiple/shinyoverview](https://github.com/mcsiple/shinyoverview)
 
 --
 
@@ -109,16 +109,16 @@ Available in the repo but optional for today:
 
 # Why I learned Shiny
 
-.pull-left[
-<img src=img/Common_Striped_Boyd.jpg>
+![dolphins](img/Common_Striped_Boyd.jpg)
 .caption[
 **Image:** Jeff Moore
 ]
-]
 
-.pull-right[
-<img src=img/mmbiet.png>
-]
+---
+
+# Why I learned Shiny
+
+![mmbiet](img/mmbiet.gif)
 
 ---
 
