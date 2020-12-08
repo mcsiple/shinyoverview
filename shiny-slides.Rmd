@@ -413,7 +413,7 @@ RStudio's [best practices for dashboards](https://db.rstudio.com/best-practices/
 
 # Downloading from Shiny
 
-You can download data from a Shiny app using `downloadLink()` in the ui and `downloadHandler()` in the server:
+You can download data from a Shiny app using `downloadLink()` or `downloadButton()` in the ui and `downloadHandler()` in the server:
 
 ```{r eval=FALSE}
 ui <- fluidPage(
