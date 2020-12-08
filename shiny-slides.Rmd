@@ -532,23 +532,31 @@ If you've put a lot of time into making a Shiny app, you should get credit!
 The publication/credit avenues are unconventional for Shiny apps, but they DO exist.
 
 - Publish in an open source software journal (e.g., JOSS)
-- Publish code straight from GitHub with a DOI from Zenodo
+
+- Publish code straight from GitHub with a DOI from Zenodo ( [here](https://www.rinproduction.com/en/posts/005-8-tips-for-a-production-ready-shiny-application/) are some good tips for preparing your app for production )
+
 - (for "just for fun" apps): submit your Shiny app to the RStudio [Shiny contest](https://community.rstudio.com/t/shiny-contest-2020-is-here/51002)
 <!-- see if you can get some data on citation rates for JOSS vs zenodo github entry -->
 
 ---
 
-# Having fun is good
-
 class: center, middle
+
+# Having fun is good
 
 ![duckspirits](https://i.gifer.com/SLcP.gif)
 
 ---
 
-.pull-left[
-![catapp](img/)
-]
+class: center, middle
+
+![catapp](img/catapp.gif)
+
+---
+
+class: center, middle
+
+![novels](img/novels.png)
 
 ---
 
@@ -564,7 +572,7 @@ class: center, middle
 ### **More Shiny resources:**
 We love a [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
 
-### Check out my Shiny apps!
+### Some of my Shiny apps
 
 The [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mammaltool/)
 
