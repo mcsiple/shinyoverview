@@ -58,4 +58,14 @@ shinyServer(function(input, output) {
         }
     )
     
+    output$rdata_summary <- downloadHandler(
+        filename = function() {
+            paste(input$which_stocklong, ".RData", sep = "")
+        },
+        content = function(file) {
+            saveRDS(object = subsetted_data(),
+                      file)
+        }
+    )
+    
 })

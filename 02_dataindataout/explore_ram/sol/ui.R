@@ -61,7 +61,11 @@ shinyUI(
         p("Want to download the RAM legacy database entries for your stock of choice? Click below."),
         downloadButton(
           outputId = "summary",
-          label = "Download CSV"
+          label = "Download CSV or Rdata"
+        ),
+        downloadButton(
+          outputId = "rdata_summary",
+          label = "Download .RData"
         )
       ) # /mainPanel <-- mark the ends of your ui components
     ) # /sidebarLayout
