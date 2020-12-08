@@ -60,7 +60,9 @@ class: center, middle
 
 ### People are the special ingredient
 
-## This is the same in marine science! And Shiny can help us with many of these tasks.
+--
+
+## <mark>This is the same in marine science! Shiny can help us with many of these tasks.</mark>
 
 
 ---
@@ -306,12 +308,14 @@ R code... mostly :)
 - **Reactive expressions**
   - `reactive()` caches reactive objects so you can access them later in the server logic -- very important!
   - `eventReactive()` creates reactive objects but only when a specific input changes (e.g., a "Run Analysis!" button is clicked)
+  - lazy
 
 --
 
 - **Observe expressions** change the ui based on input, e.g.,
   - autopopulate default values in a form if a user has selected a default
   - change the range for one input based on another input
+  - eager
 
 ---
 
@@ -397,6 +401,16 @@ You can publish small data files that sit on the server with your app. You can l
 
 ---
 
+# More on data storage in Shiny
+
+Dean Attali's [Persistent Data Storage With Shiny](https://daattali.com/shiny/persistent-data-storage/) app 
+
+[This](https://shiny.rstudio.com/articles/persistent-data-storage.html) blog post about data storage in Shiny (also by Dean Attali)
+
+RStudio's [best practices for dashboards](https://db.rstudio.com/best-practices/dashboards/) shows how to connect a `shinydashboard` to a database
+
+---
+
 # Downloading from Shiny
 
 You can download data from a Shiny app using `downloadLink()` in the ui and `downloadHandler()` in the server:
@@ -448,7 +462,7 @@ An HTML report consists of two pieces:
 
 ```{yaml eval=FALSE}
 ---
-title: "My Shiny app: the report"
+title: "My Shiny app report"
 output: html_document
 params:
   obj_to_pass1: NA
@@ -470,17 +484,6 @@ output$report <- downloadHandler(
                         params = params,
                         envir = new.env(parent = globalenv()))
 ```
-
-
----
-
-# More resources for dealing with data in Shiny
-
-Dean Attali's [Persistent Data Storage With Shiny](https://daattali.com/shiny/persistent-data-storage/) app 
-
-[This](https://shiny.rstudio.com/articles/persistent-data-storage.html) blog post about data storage in Shiny (also by Dean Attali)
-
-RStudio's [best practices for dashboards](https://db.rstudio.com/best-practices/dashboards/) shows how to connect to databases in Shiny
 
 ---
 
@@ -533,7 +536,7 @@ If you are designing an app for management, a good ui is essential.
 If you've put a lot of time into making a Shiny app, you should get credit! 
 The publication/credit avenues are unconventional for Shiny apps, but they DO exist.
 
-- Publish in an open source software journal (e.g., JOSS)
+- Publish as a package in an open source software journal (e.g., JOSS) (check out the `{golem}` pkg for structuring your files and streamlining production) `r emo::ji("package")`
 
 - Publish code straight from GitHub with a DOI from Zenodo ( [here](https://www.rinproduction.com/en/posts/005-8-tips-for-a-production-ready-shiny-application/) are some good tips for preparing your app for production )
 
@@ -572,7 +575,13 @@ class: center, middle
 `r icon::fa("twitter")`: @margaretsiple
 
 ### **More Shiny resources:**
+
+[Mastering Shiny](https://mastering-shiny.org/) by Hadley Thee Wickham 
+
+Colin Fay has several [talks](https://colinfay.me/talks-publications/) on Shiny app workflow and production
+
 We love a [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
 
 ### Some of my Shiny apps
 
