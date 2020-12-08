@@ -2,9 +2,9 @@
 # Example 1
 # Basic functionality
 
-# **** optional exercise! ***** #
-# 1) Change the dog breed selectInput() to radio buttons. Since there are a lot of breeds, just make the options Mischling klein, Chihuahua, Labrador Retriever, and Jack Russel Terrier (the four most popular breeds)
-# 2) See how the dogs dataframe is filtered the same way in each output obejct? Turn the filtered dogs dataframe into a reactive object instead, using rdogs <- reactive(). 
+# **** solutions! ***** #
+# 1) Change the dog breed selectInput() to radio buttons.
+# 2) See how the dogs dataframe is filtered the same way in each output obejct? Turn the filtered dogs dataframe into a reactive object instead, using rdogs <- reactive().
 
 library(tidyverse)
 library(kableExtra)
@@ -21,12 +21,17 @@ ui <- fluidPage(
   # Sidebar with a dropdown menu for breed
   sidebarLayout(
     sidebarPanel(
-      selectInput(
+      radioButtons(
         inputId = "breed",
         label = "Breed:",
-        choices = unique(dogs$BREED),
-        selected = "Shih Tzu" # default selection
-      ), 
+        choices = c(
+          "Mischling klein",
+          "Chihuahua",
+          "Labrador Retriever",
+          "Jack Russel Terrier"
+        ),
+        selected = "Mischling klein"
+      ),
     ),
 
     # Show a plot of the city-wide distribution
@@ -49,10 +54,12 @@ ui <- fluidPage(
 
 # Server logic
 server <- function(input, output) {
+  rdogs <- reactive(dogs %>%
+    filter(BREED == input$breed & !is.na(DISTRICT)))
+
   output$distPlot <- renderPlot({
     # count of chosen breed x by district
-    dogs %>%
-      filter(BREED == input$breed & !is.na(DISTRICT)) %>%
+    rdogs() %>%
       ggplot(aes(x = factor(DISTRICT))) +
       xlab("District") +
       ylab("Number of dogs") +
@@ -65,8 +72,7 @@ server <- function(input, output) {
   # breed = "Shih Tzu"
 
   output$birthdayPlot <- renderPlot({
-    dogs %>%
-      filter(BREED == input$breed & !is.na(DISTRICT)) %>%
+    rdogs() %>%
       filter(DOG_BIRTHDAY < 2020) %>%
       ggplot(aes(
         x = factor(DISTRICT),
