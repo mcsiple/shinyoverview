@@ -41,11 +41,13 @@ But we’re all working together to try to make a big, beautiful thing happen
 
 class: center, middle
 ![os1](img/OSSCS1.jpg)
+<sub><sup>Photo: Shaya Lyon</sup></sub>
 
 ---
 
 class: center, middle
 ![os2](img/OSSCS2.jpg)
+<sub><sup>Photo: Shaya Lyon</sup></sub>
 
 ---
 # How we deal with complexity in an orchestra setting: 
