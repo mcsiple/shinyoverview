@@ -163,6 +163,10 @@ You can choose between single (**app.R**) or multiple files (**ui.R** and **serv
 *Does it matter which one you choose?*
 >Not really. Some people like the organization of having multiple files. But it really doesn't make a difference!
 
+>The experts are split on their preferences.
+
+![poll](img/filepoll.png)
+
 ---
 
 # Each Shiny app has two components
