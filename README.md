@@ -1,6 +1,6 @@
 # Introduction to Shiny
 
-Scripts for a presentation on Shiny and its utility, originally written for the Fay lab at UMassD.
+Scripts for a presentation on Shiny and its utility. The presentation and material were originally written for the Fay lab at UMassD and have since been adapted.
 
 ***
 
@@ -15,8 +15,8 @@ library(kableExtra) # nice tables
 library(shiny)
 library(shinythemes) # bootstrap themes
 
-# Maps
-library(leaflet) # interactive maps
+# Interactive plots
+library(plotly) 
 
 # Making tutorials
 library(learnr) # interactive tutorials
