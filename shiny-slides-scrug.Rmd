@@ -1,0 +1,380 @@
+---
+title: "Shiny"
+subtitle: "<br/>SCRUG session"
+author: "Megsie Siple"
+institute: "NOAA AFSC - RACE/GAP"
+date: "2020/12/08 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+class: center, middle
+
+# The people have spoken! 
+
+![survey](img/shinysurv.png)
+
+---
+
+class: center, middle
+![sempe](img/sempe.jpg)
+
+---
+
+# Marine science is like an orchestra
+
+Each musician has areas where they’re very specialized, and areas where they are clueless
+
+--
+
+What we do is a combination of highly technical skilled work and more whimsical multitasking/communicating
+
+--
+
+But we’re all working together to try to make a big, beautiful thing happen
+
+---
+
+# How we deal with complexity in an orchestra setting: 
+
+### Clean it up
+
+### Use building blocks
+
+### Streamline our communications
+
+### People are the special ingredient
+
+--
+
+## <mark>This is the same in marine science! Shiny can help us with many of these tasks.</mark>
+
+
+---
+
+class: center, middle
+
+Shiny can be a little gnarly at first.
+
+![stinkspirit](https://i.gifer.com/TR2i.gif)
+
+---
+
+# Outline
+
+1. `shiny` basics - when to use it, how to do it
+
+--
+
+2. Building interactive plots using `{plotly}`
+
+--
+
+If you'd like to follow along, clone this directory and follow the examples!
+[https://github.com/mcsiple/shinyoverview](https://github.com/mcsiple/shinyoverview)
+
+--
+
+Available in the repo but optional for today:
+> 3. *Getting data into and out of Shiny*
+
+> 4. *Translating your Shiny apps using `{shiny.18n}`*
+
+> 5. *Using Shiny to supercharge your remote teaching with `{learnr}`*
+
+
+---
+
+# Why I learned Shiny
+
+![dolphins](img/Common_Striped_Boyd.jpg)
+.caption[
+**Image:** Jeff Moore
+]
+
+---
+
+# Why I learned Shiny
+
+![mmbiet](img/mmbiet.gif)
+
+---
+
+# What is Shiny?
+
+![whatisshiny](img/whatisshiny.png)
+
+---
+
+# When is Shiny useful?
+
+When we want to make R code accessible outside of an R or RStudio environment. For example,
+
+--
+
+- teaching a package
+
+--
+
+- showing data visualizations to non-experts
+
+--
+
+- streamlining certain code-intensive things (like database queries or visualizing bulky simulation outputs)
+
+---
+
+# Starting a new Shiny app
+
+From The RStudio IDE, pick `New File -> Shiny Web App`
+
+You can choose between single (**app.R**) or multiple files (**ui.R** and **server.R**)
+
+*Does it matter which one you choose?*
+>Not really. Some people like the organization of having multiple files. But it really doesn't make a difference!
+
+>The experts are split on their preferences.
+
+![poll](img/filepoll.png)
+
+---
+
+# Each Shiny app has two components
+
+The **user interface (`ui`)** object dictates the appearance of the app. UI functions write HTML. For something to appear in your app, it needs to be in the UI.
+
+***
+
+The **`server()` function** contains rendering expressions that create the objects to display. 
+
+
+
+
+
+The server function and UI object are passed to the `shinyApp()` function to create a Shiny app object.
+
+---
+
+# **ui.R**/server.R
+
+.pull-left[
+The ui looks like this:
+
+```{r eval=FALSE}
+ui <- fluidPage(
+    titlePanel("Old Faithful Geyser Data"),
+    sidebarLayout(
+        sidebarPanel(
+*            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)),
+        mainPanel(
+*           plotOutput("distPlot"))
+    )
+)
+```
+]
+
+.pull-right[
+The corresponding ui looks like this:
+
+![basicui](img/basicui.png)
+]
+
+---
+
+# **ui.R**/server.R
+
+The ui code contains the following information: 
+
+1. The UI type 
+  - `fluidPage()` puts elements in rows that can include columns `r emo::ji("cake")`
+  - `navbarPage()` has a navigation bar `r emo::ji("file")`
+
+2. Layout elements (`sidebarLayout()` etc.)
+
+3. Theme information (e.g., `{shinythemes}`)
+
+--
+
+4. Output objects (`plotOutput()`, etc.)
+
+5. Input objects (`sliderInput()`,`fileInput()` etc.)
+
+*Input objects link the user interface to the R code on the server.*
+
+---
+
+# ui.R/**server.R**
+
+The server builds a list-like object called `output`. The contents of `output` are displayed in the ui.
+
+```{r eval= FALSE}
+server <- function(input, output) {
+    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    })
+}
+```
+
+---
+
+# **ui.R**/**server.R**
+
+The server builds a list-like object called `output`. `output` objects are displayed in the ui. Here is how they are linked:
+
+.pull-left[
+```{r eval= FALSE}
+server <- function(input, output) {
+*    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    })
+}
+```
+]
+
+.pull-right[
+```{r eval=FALSE}
+ui <- fluidPage(
+    titlePanel("Old Faithful Geyser Data"),
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)),
+        mainPanel(
+*           plotOutput("distPlot"))
+    )
+)
+```
+]
+---
+
+# What's on the server?
+
+R code... mostly :)
+
+--
+
+![spirited](https://i.gifer.com/3QvT.gif)
+
+---
+
+# ui.R/**server.R**
+
+- **Rendering functions** (`renderPlot()`, `renderTable()`, etc.)
+  - Build a new object to display every time the inputs change
+
+--
+
+- **Reactive expressions**
+  - `reactive()` caches reactive objects so you can access them later in the server logic -- very important!
+  - `eventReactive()` creates reactive objects but only when a specific input changes (e.g., a "Run Analysis!" button is clicked)
+  - lazy
+
+--
+
+- **Observe expressions** change the ui based on input, e.g.,
+  - autopopulate default values in a form if a user has selected a default
+  - change the range for one input based on another input
+  - eager
+
+---
+
+class: center, middle
+
+# 01_basics/app.R
+
+---
+
+class: center, middle, inverse
+
+# Interactive plots with `plotly`
+
+
+---
+
+# What is `{plotly}`?
+
+`plotly` makes interactive web-based plots using the Javascript library `{plotly.js}`.
+
+`plot_ly()` is the primary plotting function and behaves like `plot()`. 
+
+Plotly also has a function `ggplotly()` which works nicely with `{ggplot2}` to make ggplots interactive. 
+
+---
+
+# How to add an interactive plot to your app
+
+A basic plotly plot:
+
+```{r eval = FALSE}
+library(plotly)
+
+p <- palmerpenguins::penguins %>%
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) + 
+  geom_point()
+
+*  ggplotly(p)
+```
+
+In shiny **UI**:
+```{r eval = FALSE}
+plotlyOutput("my_plotly_plot")
+```
+
+In shiny **server**:
+```{r eval = FALSE}
+output$my_plotly_plot <- renderPlotly({...
+  ggplotly(p)
+})
+```
+---
+
+class: center, middle, inverse
+
+# 05_ggplotly/app.R
+
+---
+
+class: center, middle
+
+# Fin!
+
+### **More Shiny resources:**
+
+[Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham 
+
+Colin Fay has several [talks](https://colinfay.me/talks-publications/) on Shiny app workflow and production
+
+We love a [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+
+### Some of my Shiny apps
+
+The [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mammaltool/)
+
+[Novel-gazing](https://msiple.shinyapps.io/NovelGazingApp/) (for Goodreads users) 
+
+[Adopt Don't Shop](https://nsilbiger.shinyapps.io/AdoptDontShop/) (collaboration with Nyssa Silbiger)
+
+***
+
+Slides created using the R package [**xaringan**](https://github.com/yihui/xaringan).
