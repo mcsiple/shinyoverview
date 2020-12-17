@@ -6,44 +6,71 @@
 #
 #    http://shiny.rstudio.com/
 #
+# This app shows an interactive plot of landings data in Alaska from NMFS: https://foss.nmfs.noaa.gov/
 
 library(shiny)
+library(plotly)
+library(shinythemes)
+
+source("00_initializeapp.R")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
+    theme = shinytheme("cosmo"),
+    
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins 
+    titlePanel("West Coast crab landings"),
+    
+    # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+            radioButtons("state_select",
+                         "Select a state:",
+                         choices = unique(crabs$State),
+                         selected = NULL
+            )
         ),
-
+        
+        
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot")
+            plotlyOutput("interactive_plot")
         )
     )
 )
 
-# Define server logic required to draw a histogram
+# Server logic
 server <- function(input, output) {
-
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    output$interactive_plot <- renderPlotly({
+        # plot an area plot of the data
+        pl <- crabs %>%
+            filter(State == input$state_select) %>%
+            ggplot(aes(x = Year, y = Pounds / 1e6, fill = NMFS.Name)) +
+            geom_area() +
+            geom_area(aes(text = paste0(
+                "<b>", "Year: ", "</b>", Year,
+                "<br>",
+                "<b>", "Product name: ", "</b>", NMFS.Name,
+                "<br>",
+                "<b>", "Dollar value: $", "</b>", format(round(Dollars, 0), big.mark = ",")
+            ))) +
+            ylab("Landings (Millions of pounds)") +
+            ghibli::scale_fill_ghibli_d(name = "MononokeLight") +
+            theme_classic()
+        
+        ggp <- ggplotly(p = pl, tooltip = "text") %>%
+            style(hoveron = "points") %>%
+            layout(xaxis = list( # add "spikes" along x axis
+                showspikes = TRUE,
+                spikemode = "across",
+                spikedash = "solid",
+                spikethickness = 1,
+                hovermode = "compare"
+            ))
+        
+        ggp
     })
 }
 
-# Run the application 
+# Run the application
 shinyApp(ui = ui, server = server)
