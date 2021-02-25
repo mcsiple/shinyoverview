@@ -22,6 +22,9 @@ library(plotly)
 library(learnr) # interactive tutorials
 # remotes::install_github("rstudio-education/gradethis")
 library(gradethis)
+
+# Visualizing reactivity
+library(reactlog)
 ```
 
 This talk will introduce Shiny and its glorious abilities, with the assumption that you have heard of Shiny but haven't necessarily used it yet. Because there are tons of great examples online, I have highlighted tools that I have found useful and fun. The talk structure will be, more or less:
