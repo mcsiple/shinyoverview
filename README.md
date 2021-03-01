@@ -1,6 +1,6 @@
 # Introduction to Shiny
 
-Scripts for a presentation on Shiny and its utility. The presentation and material were originally written for the Fay lab at UMassD and have since been adapted.
+Scripts for a presentation on Shiny and its utility. The presentation and material have been adapted for many different uses-- hopefully yours is below!
 
 ***
 
@@ -33,7 +33,7 @@ This talk will introduce Shiny and its glorious abilities, with the assumption t
 2. Getting data into and out of `shiny`
 3. Lessons I learned during the app development process
 
-These latter two sections are optional but materials are included for you to explore them on your own:
+These latter two sections are optional but materials are included for you to explore on your own:
 
 4. Translating `shiny` apps using `{shiny.18n}`
 5. Shiny as a teaching tool using `{learnr}` 
