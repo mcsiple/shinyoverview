@@ -1,5 +1,5 @@
 ---
-title: "Shiny - Part 2"
+title: "Shiny Part 2: Deploy!"
 subtitle: "<br/>FISH 497"
 author: "Megsie Siple"
 institute: "NOAA AFSC - RACE/GAP"
@@ -17,6 +17,20 @@ class: center, middle
 
 # Hello again! 
 
+
+---
+
+# Last week we talked about
+
+- How to know when a Shiny app is the right tool for the job
+
+--
+
+- How to build a basic Shiny app and get data in and out
+
+--
+
+- How to make interactive plots using `{plotly}`
 
 ---
 
