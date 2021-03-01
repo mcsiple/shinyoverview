@@ -6,26 +6,17 @@ institute: "NOAA AFSC - RACE/GAP"
 date: "2021/03/01 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
 ---
 
 class: center, middle
 
 # Hello! 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_mono_light(
-  base_color = "#23395b",
-  header_font_google = google_font("Josefin Sans"),
-  text_font_google   = google_font("Work Sans", "300", "300i"),
-  code_font_google   = google_font("IBM Plex Mono")
-)
-```
 
 ---
 
@@ -90,11 +81,11 @@ Shiny can be a little gnarly at first.
 
 --
 
-2. Get data into and out of Shiny apps
+2. Some features you can use to improve functionality
 
   User uploads & downloads
-  
-  Markdown reports
+
+  Making interactive plots using `{plotly}`
   
 --
 
@@ -113,6 +104,7 @@ There are many other things available in the repo that we won't cover today, but
 
 > 5. *Using Shiny to supercharge your remote teaching with `{learnr}`*
 
+> 6. *Generating Markdown reports from Shiny*
 
 ---
 
@@ -170,22 +162,17 @@ You can choose between single (**app.R**) or multiple files (**ui.R** and **serv
 *Does it matter which one you choose?*
 >Not really. Some people like the organization of having multiple files. But it really doesn't make a difference!
 
->The experts are split on their preferences.
-
 ![poll](img/filepoll.png)
 
 ---
 
 # Each Shiny app has two components
 
-The **user interface (`ui`)** object dictates the appearance of the app. UI functions write HTML. For something to appear in your app, it needs to be in the UI.
+The **`ui`** (user interface) object dictates the appearance of the app. UI functions write HTML. For something to appear in your app, it needs to be in the UI.
 
 ***
 
-The **`server()` function** contains rendering expressions that create the objects to display. 
-
-
-
+The **`server()`** function contains rendering expressions that create the objects to display. 
 
 
 The server function and UI object are passed to the `shinyApp()` function to create a Shiny app object.
@@ -238,7 +225,7 @@ The ui code contains the following information:
 
 4. Output objects (`plotOutput()`, etc.)
 
-5. Input objects (`sliderInput()`,`fileInput()` etc.)
+5. Input objects (`sliderInput()`,`fileInput()` etc.) - also called "widgets"
 
 *Input objects link the user interface to the R code on the server.*
 
@@ -431,44 +418,25 @@ server <- function(input, output) {
 
 ---
 
-# Downloading HTML files from Shiny
-
-An HTML report consists of two pieces:
-
---
-
-1) A `report.Rmd` template file with a yaml header specifying the objects passed from Shiny
-
-```{yaml eval=FALSE}
----
-title: "My Shiny app report"
-output: html_document
-params:
-  obj_to_pass1: NA
-  obj_to_pass2: NA
----
-```
---
-
-2) An object `output$report` in the server logic
-
-```{r eval=FALSE}
-output$report <- downloadHandler(
-    filename = "report.html",
-    content = function(file) {
-      tempReport <- file.path(tempdir(), "report.Rmd")
-      file.copy("report.Rmd", tempReport, overwrite = TRUE)
-*      params <- list(obj_to_pass1, obj_to_pass2)
-            rmarkdown::render(tempReport, output_file = file,
-                        params = params,
-                        envir = new.env(parent = globalenv()))
-```
-
----
-
-class: center, middle, inverse
+class: center, middle
 
 # 02_dataindataout/explore_ram/ui.R
+
+
+---
+
+# Sidebar: Shiny dashboards
+
+Show a dataset several ways in one place (and automatically update it!)
+Use it for:
+
+- communicating data in a polished way
+
+- offering access to visualizations from a database
+
+- showing a "data story" in a linear way
+
+![confdash](img/confdash.png)
 
 ---
 
