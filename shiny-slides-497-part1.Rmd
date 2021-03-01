@@ -108,6 +108,7 @@ There are many other things available in the repo that we won't cover today, but
 
 ---
 
+
 # Why I learned Shiny
 
 ![dolphins](img/Common_Striped_Boyd.jpg)
@@ -170,6 +171,8 @@ You can choose between single (**app.R**) or multiple files (**ui.R** and **serv
 
 The **`ui`** (user interface) object dictates the appearance of the app. UI functions write HTML. For something to appear in your app, it needs to be in the UI.
 
+--
+
 ***
 
 The **`server()`** function contains rendering expressions that create the objects to display. 
@@ -225,7 +228,7 @@ The ui code contains the following information:
 
 4. Output objects (`plotOutput()`, etc.)
 
-5. Input objects (`sliderInput()`,`fileInput()` etc.) - also called "widgets"
+5. Input objects (`sliderInput()`,`fileInput()` etc.) - also called "[widgets](https://shiny.rstudio.com/gallery/widget-gallery.html)"
 
 *Input objects link the user interface to the R code on the server.*
 
@@ -251,7 +254,7 @@ server <- function(input, output) {
 
 # **ui.R**/**server.R**
 
-The server builds a list-like object called `output`. `output` objects are displayed in the ui. Here is how they are linked:
+The server builds a list-like object called `output`. The contents of `output` are displayed in the ui. Here is how they are linked:
 
 .pull-left[
 ```{r eval= FALSE}
@@ -364,6 +367,10 @@ ui <- fluidPage(
 # Put the data on the server
 
 You can publish small data files that sit on the server with your app. You can load these data at the top of the app file (if server and ui are both located in **app.R**) or in the **ui.R** file if you're using separate files for ui and server.  
+
+--
+
+You can also link Shiny to a database using `dplyr` and `DBI` (for external databases). More on that [here](https://shiny.rstudio.com/articles/overview.html).
 
 ---
 
