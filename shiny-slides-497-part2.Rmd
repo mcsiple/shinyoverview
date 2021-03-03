@@ -49,6 +49,7 @@ class: center, middle
 
 
 ---
+
 # Deploying your Shiny app
 
 ## Deploy to the cloud
@@ -61,35 +62,40 @@ class: center, middle
 ![shinyappsio](img/shinyappsio.png)
 
 ---
+
+
 # Deploying your Shiny app
 
 ## Deploy to the cloud
 - If you add a new token and click 'show', you'll get instructions for how to configure `rsconnect` 
 
-- Then you use `rsconnect::setAccountInfo() to configure your rsconnect installation. This will link your shinyapps.io account to your local environment:
+- Use `rsconnect::setAccountInfo()` to configure your rsconnect installation. This will link your shinyapps.io account to your local environment:
 
 ```{r eval=FALSE}
-rsconnect::setAccountInfo(name="<ACCOUNT>", token="<TOKEN>", secret="<SECRET>")
+library(rsconnect)
+setAccountInfo(name="<ACCOUNT>", token="<TOKEN>", secret="<SECRET>")`
 ```
 
-- Then, you can deploy from within RStudio by clicking the 'Publish' button in the RStudio IDE, or use the console:
+- You can deploy from within RStudio by clicking the 'Publish' button in the RStudio IDE, or use the console:
 
 ```{r eval=FALSE}
-rsconnect::deployApp(server = "shinyapps.io")
+deployApp(server = "shinyapps.io")`
 ```
 
-That's it!
+- woo!
 
 ---
-# Deploying your Shiny app
+
+# Deploying your Shiny app 2
 
 ## Other options for deployment
 
-### Deploy to an RStudio Connect account (local, commercial option)
+- Deploy to an RStudio Connect account (local, commercial option)
 
-### Publish on Shiny Server (local, open source)
+- Publish on Shiny Server (local, open source)
 
 ---
+
 # Getting credit for your Shiny development
 
 If you've put a lot of time into making a Shiny app, you should get credit! 
