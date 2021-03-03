@@ -3,7 +3,7 @@ title: "Shiny Part 2: Deploy!"
 subtitle: "<br/>FISH 497"
 author: "Megsie Siple"
 institute: "NOAA AFSC - RACE/GAP"
-date: "2021/03/01 (updated: `r Sys.Date()`)"
+date: "2021/03/03 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -20,7 +20,7 @@ class: center, middle
 
 ---
 
-# Last week we talked about
+# On Monday we talked about
 
 - How to know when a Shiny app is the right tool for the job
 
@@ -28,18 +28,74 @@ class: center, middle
 
 - How to build a basic Shiny app and get data in and out
 
---
-
-- How to make interactive plots using `{plotly}`
 
 ---
 
-# You can publish Shiny apps!
+# Today (Wednesday) we will cover
+
+- Deploying your Shiny app
+
+--
+
+- Building cool/interactive maps using `{leaflet}`
+
+--
+
+- Using Shiny to make a tutorial in `{learnr}`
+
+--
+
+- ...and then we'll just gaze at some great apps
+
+
+---
+# Deploying your Shiny app
+
+## Deploy to the cloud
+- Sign up for a free shinyapps.io account
+
+- Install `{rsconnect}` 
+
+- Configure `rsconnect` to use your account using a token from your shinyapps.io account:
+
+![shinyappsio](img/shinyappsio.png)
+
+---
+# Deploying your Shiny app
+
+## Deploy to the cloud
+- If you add a new token and click 'show', you'll get instructions for how to configure `rsconnect` 
+
+- Then you use `rsconnect::setAccountInfo() to configure your rsconnect installation. This will link your shinyapps.io account to your local environment:
+
+```{r eval=FALSE}
+rsconnect::setAccountInfo(name="<ACCOUNT>", token="<TOKEN>", secret="<SECRET>")
+```
+
+- Then, you can deploy from within RStudio by clicking the 'Publish' button in the RStudio IDE, or use the console:
+
+```{r eval=FALSE}
+rsconnect::deployApp(server = "shinyapps.io")
+```
+
+That's it!
+
+---
+# Deploying your Shiny app
+
+## Other options for deployment
+
+### Deploy to an RStudio Connect account (local, commercial option)
+
+### Publish on Shiny Server (local, open source)
+
+---
+# Getting credit for your Shiny development
 
 If you've put a lot of time into making a Shiny app, you should get credit! 
 The publication/credit avenues are unconventional for Shiny apps, but they DO exist.
 
-- Publish as a package in an open source software journal (e.g., JOSS) (check out the `{golem}` pkg for structuring your files and streamlining production) `r emo::ji("package")`
+- Publish as a package in an open source software journal (e.g., [JOSS](https://joss.theoj.org/) ) (check out the `{golem}` pkg for structuring your files and streamlining production) `r emo::ji("package")`
 
 - Publish code straight from GitHub with a DOI from Zenodo ( [here](https://www.rinproduction.com/en/posts/005-8-tips-for-a-production-ready-shiny-application/) are some good tips for preparing your app for production )
 
