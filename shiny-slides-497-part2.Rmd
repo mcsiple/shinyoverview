@@ -63,13 +63,12 @@ class: center, middle
 
 ---
 
-
 # Deploying your Shiny app
 
 ## Deploy to the cloud
 - If you add a new token and click 'show', you'll get instructions for how to configure `rsconnect` 
 
-- Use `rsconnect::setAccountInfo()` to configure your rsconnect installation. This will link your shinyapps.io account to your local environment:
+- Configure your rsconnect installation. This will link your shinyapps.io account to your local environment:
 
 ```{r eval=FALSE}
 library(rsconnect)
@@ -110,11 +109,40 @@ The publication/credit avenues are unconventional for Shiny apps, but they DO ex
 
 ---
 
+# Maps in Shiny with `leaflet`
+
+Leaflet is an open-source JavaScript library that makes interactive maps.
+
+It's *very cool*! And the `leaflet` R package integrates well with Markdown files and Shiny apps so you can show spatial data.
+
+It gets fancy very fast. [Here](https://rstudio.github.io/leaflet/) is the guide for using `leaflet` in R and integrating it with Shiny.
+
+---
+
 class: center, middle
 
-# Having fun is good
+# 0n_maps/app.R
+
+
+---
+
+class: center, middle, inverse
+
+# `learnr` demo
 
 ![duckspirits](https://i.gifer.com/SLcP.gif)
+
+---
+
+class: center, middle, inverse
+
+# Some cool Shiny apps
+
+[Beyond Temperature](https://heatherwelch.shinyapps.io/beyond_temperature/) by Jennifer McHenry, Heather Welch, Sarah E. Lester, and Vincent Saba
+
+[tidytuesday.rocks](https://nsgrantham.shinyapps.io/tidytuesdayrocks/) by Neal Grantham
+
+[Sentify](https://rcharlie.shinyapps.io/sentify/) by Charlie Thompson
 
 ---
 
@@ -136,8 +164,8 @@ class: center, middle
 
 ### contact
 
-`r icon::fa("envelope")`: mcsiple@gmail.com
-`r icon::fa("twitter")`: @margaretsiple
+`r emo::ji("email")`: mcsiple@gmail.com
+`r emo::ji("bird")`: @margaretsiple
 
 ### **More Shiny resources:**
 
