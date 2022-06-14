@@ -575,8 +575,8 @@ class: center, middle
 
 ### contact
 
-`r icon::fa("envelope")`: mcsiple@gmail.com
-`r icon::fa("twitter")`: @margaretsiple
+email: margaret.siple@noaa.gov
+twitter: @margaretsiple
 
 ### **More Shiny resources:**
 
