@@ -17,7 +17,7 @@ class: center, middle
 
 # Hello! 
 
-
+  
 ---
 
 class: center, middle
@@ -108,9 +108,9 @@ Available in the repo but optional for today:
 
 ---
 
-# Why I learned Shiny
+class: center, middle
 
-![mmbiet](img/mmbiet.gif)
+# Shiny basics
 
 ---
 
@@ -312,6 +312,21 @@ R code... mostly :)
   - change the range for one input based on another input
   - eager
 
+
+---
+
+# Shiny as mirror and window
+
+- Building a Shiny app can teach you a lot about your own data and models
+- Pilot testing can tell you about stakeholder needs and how to communicate your science more effectively (two-way street)
+
+--
+
+- Shiny as a ui can help users:
+  - explore parameter space to understand sources of variation
+  - explore model outputs to get an instinct for model behavior
+  - look for details if and when they are ready
+
 ---
 
 class: center, middle
@@ -322,17 +337,26 @@ class: center, middle
 
 ---
 
-# UI is very important
+# Why I learned Shiny
 
-Designing a good ui is hard! And Shiny defaults are not the most intuitive / appealing / accessible version they can be.
+![mmbiet](img/mmbiet.gif)
 
---
+---
+
+# UI development is a path to knowing our science and our audience more deeply
 
 If you are designing an app for management, a good ui is essential.
 
 --
 
+Designing a good ui is hard! And Shiny defaults are not the most intuitive / appealing / accessible version they can be.
+
+--
+
 - my #1 tip: if you have time, pilot test with subject matter experts AND users
+  - Define **user goals**
+  - Use **missions** (e.g., "create a density plot of penguin weight")
+  - For online-only pilot testing, apps like Maze and UsabilityHub can help you see how users are interacting with the interface
   
 --
 
@@ -369,10 +393,15 @@ The publication/credit avenues are unconventional for Shiny apps, but they DO ex
 #Publishing Shiny apps at NOAA
 
 1. [connect.fisheries.noaa.gov](connect.fisheries.noaa.gov) is for NMFS scientists to publish Shiny Apps
+
 2. Runs on AWS architecture supported by Office of Science & Technology
+
 3. License is limited to 100 users and applications can be public or private to only those with accounts
+
 4. Looking to expand computing capabilities w/ license renewal this fall
+
 5. Contact Christine Stawitz for more details
+
 6. Josh London has also volunteered to be a contact.
 
 ---
@@ -408,16 +437,17 @@ twitter: @margaretsiple
 
 ### **More Shiny resources:**
 
-[Mastering Shiny](https://mastering-shiny.org/) by Hadley Thee Wickham 
+[Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham 
 
 Colin Fay has several [talks](https://colinfay.me/talks-publications/) on Shiny app workflow and production
 
 We love a [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
 
+A nice [summary](https://www.rstudio.com/blog/successfully-putting-shiny-in-production/) from Isabella Velasquez on production-grade Shiny apps
 
 ### Some of my Shiny apps
 
-The [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mammaltool/)
+The [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mmrefpoints/)
 
 [Novel-gazing](https://msiple.shinyapps.io/NovelGazingApp/) (for Goodreads users) 
 
@@ -425,4 +455,4 @@ The [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io
 
 ***
 
-Slides created using the R package [**xaringan**](https://github.com/yihui/xaringan).
+  *Slides are made in [xaringan](https://github.com/yihui/xaringan) (sorry Josh! Next time it will be Quarto)*
