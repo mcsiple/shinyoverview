@@ -11,7 +11,7 @@ Scripts and slides for presentations on Shiny. The presentation and material hav
 
 Slides are all in the presentations folder.
 
-June 2022 - NMFS R UG - [Using Shiny for better science communication](presentations/shiny-slides-nmfsrug.Rmd)
+* June 2022 - NMFS R UG - [Using Shiny for better science communication](presentations/shiny-slides-nmfsrug.Rmd)
 
 ---
 
