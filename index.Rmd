@@ -60,6 +60,8 @@ These latter two sections are optional but materials are included for you to exp
 
 ## Example apps
 
-* Novel-gazing (Siple and friends)
-* Adopt, Don't Shop (Silbiger and Siple)
-* MMBIET (Siple et al. 2022)
+* [Novel-gazing](https://msiple.shinyapps.io/NovelGazingApp/) (for Goodreads users) 
+
+* [Adopt Don't Shop](https://nsilbiger.shinyapps.io/AdoptDontShop/) (collaboration with Nyssa Silbiger)
+
+* [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mmrefpoints/)
