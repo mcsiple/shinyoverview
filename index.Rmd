@@ -1,19 +1,25 @@
 ---
-title: "Home"
-author: "M Siple"
-date: '2022-06-15'
-output: html_document
+title: "Introduction to Shiny"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    theme: simple
+    highlight: monochrome
+    
+  
 ---
-
-# Introduction to Shiny
 
 Scripts and slides for presentations on Shiny. The presentation and material have been adapted for many different uses-- hopefully yours is below!
 
-Slides are all in the presentations folder.
+--- 
+
+## Slides
 
 * June 2022 - NMFS R UG - [Using Shiny for better science communication](presentations/shiny-slides-nmfsrug.Rmd)
 
 ---
+## Setup
 
 If you want to try out the app examples, install the following packages:
 
