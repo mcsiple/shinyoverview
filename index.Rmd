@@ -17,9 +17,10 @@ Scripts and slides for presentations on Shiny. The presentation and material hav
 ## Slides
 
 * June 2022 - NMFS R UG - [Using Shiny for better science communication](presentations/shiny-slides-nmfsrug.html)
-* March 2021 - FISH 497 at California State University, Northridge - Shiny apps
+* March 2021 - FISH 497 at California State University, Northridge - Shiny apps (note: this presentation contains a lot of the same material as the NMFS R UG one, but references exercises)
   * [Part I: Build!](presentations/shiny-slides-497-part1.html)
   * [Part II: Deploy!](presentations/shiny-slides-497-part2.html)
+* December 2020: [Live translation in Shiny and `{learnr}`](presentations/extraslides.html)
 
 ---
 ## Setup
