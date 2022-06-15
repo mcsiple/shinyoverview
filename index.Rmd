@@ -17,7 +17,7 @@ June 2022 - NMFS R UG - [Using Shiny for better science communication](presentat
 
 If you want to try out the app examples, install the following packages:
 
-```{r}
+```{r eval=FALSE}
 # Basics
 library(tidyverse)
 library(kableExtra) # nice tables
