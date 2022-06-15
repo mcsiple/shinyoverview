@@ -1,5 +1,5 @@
 ---
-title: "Shiny"
+title: "Using Shiny for better science communication"
 subtitle: "<br/>NMFS R UG"
 author: "Megsie Siple"
 institute: "NOAA AFSC - RACE/GAP"
