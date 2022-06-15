@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Shiny Part 1: Build!</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Megsie Siple" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Shiny Part 1: Build!
+]
+.subtitle[
+## <br/>FISH 497
+]
+.author[
+### Megsie Siple
+]
+.institute[
+### NOAA AFSC - RACE/GAP
+]
+.date[
+### 2021/03/01 (updated: 2022-06-15)
+]
+
+---
+
+
+class: center, middle
+
+# Hello! 
+
+
+---
+
+class: center, middle
+![sempe](img/sempe.jpg)
+
+---
+
+# Marine science is like an orchestra
+
+Each musician has areas where they’re very specialized, and areas where they are clueless
+
+--
+
+What we do is a combination of highly technical skilled work and more whimsical multitasking/communicating
+
+--
+
+But we’re all working together to try to make a big, beautiful thing happen
+
+---
+
+class: center, middle
+![os1](img/OSSCS1.jpg)
+&lt;sub&gt;&lt;sup&gt;Photo: Shaya Lyon&lt;/sup&gt;&lt;/sub&gt;
+
+---
+
+class: center, middle
+![os2](img/OSSCS2.jpg)
+&lt;sub&gt;&lt;sup&gt;Photo: Shaya Lyon&lt;/sup&gt;&lt;/sub&gt;
+
+---
+# How we deal with complexity in an orchestra setting: 
+
+### Clean it up
+
+### Use building blocks
+
+### Streamline our communications
+
+### People are the special ingredient
+
+--
+
+## &lt;mark&gt;This is the same in marine science! Shiny can help us with many of these tasks.&lt;/mark&gt;
+
+
+---
+
+class: center, middle
+
+Shiny can be a little gnarly at first.
+
+![stinkspirit](https://i.gifer.com/TR2i.gif)
+
+---
+
+# Outline
+
+1. `shiny` basics - when to use it, how to do it
+
+--
+
+2. Some features you can use to improve functionality
+
+  User uploads &amp; downloads
+
+  Making interactive plots using `{plotly}`
+  
+--
+
+3. Lessons I learned from developing "mmBIET"
+
+--
+
+If you'd like to follow along, clone this directory and follow the examples!
+[https://github.com/mcsiple/shinyoverview](https://github.com/mcsiple/shinyoverview)
+
+--
+
+There are many other things available in the repo that we won't cover today, but examples are included so you can try them on your own:
+
+&gt; 4. *Translating your Shiny apps using `{shiny.18n}`*
+
+&gt; 5. *Using Shiny to supercharge your remote teaching with `{learnr}`*
+
+&gt; 6. *Generating Markdown reports from Shiny*
+
+---
+
+
+# Why I learned Shiny
+
+![dolphins](img/Common_Striped_Boyd.jpg)
+.caption[
+**Image:** Jeff Moore
+]
+
+---
+
+# Why I learned Shiny
+
+![mmbiet](img/mmbiet.gif)
+
+---
+
+# What is Shiny?
+
+![whatisshiny](img/whatisshiny.png)
+
+---
+
+# When is Shiny useful?
+
+When we want to make R code accessible outside of an R or RStudio environment. For example,
+
+--
+
+- teaching a package
+
+--
+
+- showing data visualizations to non-experts
+
+--
+
+- streamlining certain code-intensive things (like database queries or visualizing bulky simulation outputs)
+
+---
+
+# Starting a new Shiny app
+
+Install **shiny**:
+
+
+```r
+install.packages("shiny")
+```
+
+From The RStudio IDE, pick `New File -&gt; Shiny Web App`
+
+You can choose between single (**app.R**) or multiple files (**ui.R** and **server.R**)
+
+*Does it matter which one you choose?*
+&gt;Not really. Some people like the organization of having multiple files. But it really doesn't make a difference!
+
+![poll](img/filepoll.png)
+
+---
+
+# Each Shiny app has two components
+
+The **`ui`** (user interface) object dictates the appearance of the app. UI functions write HTML. For something to appear in your app, it needs to be in the UI.
+
+--
+
+***
+
+The **`server()`** function contains rendering expressions that create the objects to display. 
+
+
+The server function and UI object are passed to the `shinyApp()` function to create a Shiny app object.
+
+---
+
+# **ui.R**/server.R
+
+.pull-left[
+The ui looks like this:
+
+
+```r
+ui &lt;- fluidPage(
+    titlePanel("Old Faithful Geyser Data"),
+    sidebarLayout(
+        sidebarPanel(
+*            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)),
+        mainPanel(
+*           plotOutput("distPlot"))
+    )
+)
+```
+]
+
+.pull-right[
+The corresponding ui looks like this:
+
+![basicui](img/basicui.png)
+]
+
+---
+
+# **ui.R**/server.R
+
+The ui code contains the following information: 
+
+1. The UI type 
+  - `fluidPage()` puts elements in rows that can include columns 🍰
+  - `navbarPage()` has a navigation bar 📁
+
+2. Layout elements (`sidebarLayout()` etc.)
+
+3. Theme information (e.g., `{shinythemes}`)
+
+--
+
+4. Output objects (`plotOutput()`, etc.)
+
+5. Input objects (`sliderInput()`,`fileInput()` etc.) - also called "[widgets](https://shiny.rstudio.com/gallery/widget-gallery.html)"
+
+*Input objects link the user interface to the R code on the server.*
+
+---
+
+# ui.R/**server.R**
+
+The server builds a list-like object called `output`. The contents of `output` are displayed in the ui.
+
+
+```r
+server &lt;- function(input, output) {
+    output$distPlot &lt;- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    &lt;- faithful[, 2]
+        bins &lt;- seq(min(x), max(x), length.out = input$bins + 1)
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    })
+}
+```
+
+---
+
+# **ui.R**/**server.R**
+
+The server builds a list-like object called `output`. The contents of `output` are displayed in the ui. Here is how they are linked:
+
+.pull-left[
+
+```r
+server &lt;- function(input, output) {
+*    output$distPlot &lt;- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    &lt;- faithful[, 2]
+        bins &lt;- seq(min(x), max(x), length.out = input$bins + 1)
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    })
+}
+```
+]
+
+.pull-right[
+
+```r
+ui &lt;- fluidPage(
+    titlePanel("Old Faithful Geyser Data"),
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)),
+        mainPanel(
+*           plotOutput("distPlot"))
+    )
+)
+```
+]
+---
+
+# What's on the server?
+
+R code... mostly :)
+
+--
+
+![spirited](https://i.gifer.com/3QvT.gif)
+
+---
+
+# ui.R/**server.R**
+
+- **Rendering functions** (`renderPlot()`, `renderTable()`, etc.)
+  - Build a new object to display every time the inputs change
+
+--
+
+- **Reactive expressions**
+  - `reactive()` caches reactive objects so you can access them later in the server logic -- very important!
+  - `eventReactive()` creates reactive objects but only when a specific input changes (e.g., a "Run Analysis!" button is clicked)
+  - lazy
+
+--
+
+- **Observe expressions** change the ui based on input, e.g.,
+  - autopopulate default values in a form if a user has selected a default
+  - change the range for one input based on another input
+  - eager
+
+---
+
+class: center, middle
+
+# 01_basics/app.R
+
+---
+
+class: center, middle, inverse
+
+# Getting data into and out of Shiny
+
+
+---
+
+
+# Get data into a Shiny app
+
+Shiny can accept data from various file types. 
+
+You can get data into Shiny from:
+- a file the user uploads
+- a database
+- a persistent file packaged with your app
+
+---
+
+# User uploads data
+If you want to design your app so that people can bring in their own data:
+
+Add a file upload input in the UI using the function `fileInput()`. In the `server` function, access the uploaded files via `input$mydata`:
+
+```r
+ui &lt;- fluidPage(
+  titlePanel("Uploading Files"),
+  sidebarLayout(
+    sidebarPanel(
+      # refer to input$mydata in the server code to reference this object:
+      fileInput("mydata", "Choose CSV File",
+                multiple = FALSE,
+                accept = c("text/csv",
+                         "text/comma-separated-values,text/plain",
+                         ".csv")),
+```
+
+---
+
+# Put the data on the server
+
+You can publish small data files that sit on the server with your app. You can load these data at the top of the app file (if server and ui are both located in **app.R**) or in the **ui.R** file if you're using separate files for ui and server.  
+
+--
+
+You can also link Shiny to a database using `dplyr` and `DBI` (for external databases). More on that [here](https://shiny.rstudio.com/articles/overview.html).
+
+---
+
+# More on data storage in Shiny
+
+Dean Attali's [Persistent Data Storage With Shiny](https://daattali.com/shiny/persistent-data-storage/) app 
+
+[This](https://shiny.rstudio.com/articles/persistent-data-storage.html) blog post about data storage in Shiny (also by Dean Attali)
+
+RStudio's [best practices for dashboards](https://db.rstudio.com/best-practices/dashboards/) shows how to connect a `shinydashboard` to a database
+
+---
+
+# Downloading from Shiny
+
+You can download data from a Shiny app using `downloadLink()` or `downloadButton()` in the ui and `downloadHandler()` in the server:
+
+
+```r
+ui &lt;- fluidPage(
+  downloadLink("downloadData", "Download")
+)
+
+server &lt;- function(input, output) {
+  # Our dataset
+  data &lt;- mtcars
+
+  output$downloadData &lt;- downloadHandler(
+    filename = function() {
+      paste("data-", Sys.Date(), ".csv", sep="")
+    },
+    content = function(file) {
+      write.csv(data, file)
+    }
+  )
+}
+```
+
+---
+
+# Downloading from Shiny
+
+- Download **CSV or txt files** from Shiny apps
+
+--
+
+- Generate reports in Markdown that are knitted to **html** (details on how to do that [here](https://shiny.rstudio.com/articles/generating-reports.html))
+
+--
+
+- You can also download **images** that have been generated in the app (e.g., download plots from the app)
+
+
+---
+
+class: center, middle
+
+# 02_dataindataout/explore_ram/ui.R
+
+
+---
+
+# Sidebar: Shiny dashboards
+
+Show a dataset several ways in one place (and automatically update it!)
+Use it for:
+
+- communicating data in a polished way
+
+- offering access to visualizations from a database
+
+- showing a "data story" in a linear way
+
+![confdash](img/confdash.png)
+
+---
+
+class: center, middle
+
+# Lessons I learned from developing a Shiny app
+
+![droplets](https://i.gifer.com/g5.gif)
+
+---
+
+# UI is very important
+
+Designing a good ui is hard! And Shiny defaults are not the most intuitive / appealing / accessible version they can be.
+
+--
+
+If you are designing an app for management, a good ui is essential.
+
+--
+
+- my #1 tip: if you have time, pilot test with subject matter experts AND users
+  
+--
+
+- check accessibility using the app's URL using the [Web Accessibility Evaluation (WAVE) Tool](https://wave.webaim.org/)
+
+--
+
+- use UX resources if they are available!
+
+--
+  
+- if your institution doesn't have UX resources, design pilot testing so that you get helpful feedback on UX:
+  - [18F Methods](https://methods.18f.gov/validate/) and [Maze](https://maze.design/guides/usability-testing/questions/) have great lists of testing questions and methods
+  - 18F Methods also has an [example agreement](https://methods.18f.gov/participant-agreement/) for testers
+  - Depending on the final format, places like  [UsabilityHub](https://usabilityhub.com/) have interfaces that will provide data on clicks and scrolling behavior when testing is remote
+  
+
+---
+
+class: center, middle
+
+# Fin!
+
+### contact
+
+✉️: mcsiple@gmail.com
+🐦: @margaretsiple
+
+### **More Shiny resources:**
+
+[Mastering Shiny](https://mastering-shiny.org/) by Hadley Thee Wickham 
+
+Colin Fay has several [talks](https://colinfay.me/talks-publications/) on Shiny app workflow and production
+
+We love a [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+
+### Some of my Shiny apps
+
+The [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mammaltool/)
+
+[Novel-gazing](https://msiple.shinyapps.io/NovelGazingApp/) (for Goodreads users) 
+
+[Adopt Don't Shop](https://nsilbiger.shinyapps.io/AdoptDontShop/) (collaboration with Nyssa Silbiger)
+
+***
+
+Slides created using the R package [**xaringan**](https://github.com/yihui/xaringan).
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
