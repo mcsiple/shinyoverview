@@ -2,6 +2,8 @@
 
 Scripts for a presentation on Shiny and its utility. The presentation and material have been adapted for many different uses-- hopefully yours is below!
 
+Slides for various presentations are linked below.
+
 ***
 
 If you want to try out the app examples, install the following packages:
