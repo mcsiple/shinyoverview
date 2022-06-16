@@ -14,10 +14,22 @@ Scripts and slides for presentations on Shiny. The presentation and material hav
 
 --- 
 
-## Slides
+## Slide decks
 
 * June 2022 - NMFS R UG - [Using Shiny for better science communication](presentations/shiny-slides-nmfsrug.html)
-* December 2020: [Live translation in Shiny and `{learnr}`](presentations/extraslides.html)
+* December 2020: [Live translation in Shiny, and using `{learnr}` to supercharge your code teaching](presentations/extraslides.html)
+
+## Tutorials
+
+The shinyoverview [repo](https://github.com/mcsiple/shinyoverview) contains tutorials for `{shiny}` applications. If there are exercises with solutions, they are in a subfolder called `sol/`. You can either clone the whole repo, or download the folder for a specific tutorial.
+
+* [Basics of Shiny](https://github.com/mcsiple/shinyoverview/tree/main/01_basics)
+* [How to get data in and out of `{shiny}`](https://github.com/mcsiple/shinyoverview/tree/main/02_dataindataout)
+* [Live translation with `{shiny.i18n}`](https://github.com/mcsiple/shinyoverview/tree/main/03_translation)
+* [Maps with Shiny and `{leaflet}`](https://github.com/mcsiple/shinyoverview/tree/main/0n_maps)
+* [Intro to `{learnr}`](https://github.com/mcsiple/shinyoverview/tree/main/04_learnr)
+* [Interactive plots in `{shiny}` with `{ggplotly}`](https://github.com/mcsiple/shinyoverview/tree/main/05_ggplotly)
+
 
 
 ---
@@ -63,4 +75,4 @@ These latter two sections are optional but materials are included for you to exp
 
 * [Adopt Don't Shop](https://nsilbiger.shinyapps.io/AdoptDontShop/) (collaboration with Nyssa Silbiger)
 
-* [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mmrefpoints/)
+* [Marine Mammal Bycatch Impacts Exploration Tool](https://msiple.shinyapps.io/mmrefpoints/) (Collaboration with The Ocean Modeling Forum's Marine Mammal Bycatch Working Group)
