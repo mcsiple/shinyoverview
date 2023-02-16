@@ -26,14 +26,14 @@ ui <- fluidPage(
         label = "Breed:",
         choices = unique(dogs$BREED),
         selected = "Shih Tzu" # default selection
-      ), 
+      ),
     ),
 
     # Show a plot of the city-wide distribution
     mainPanel(
+      h3("District-level patterns"),
       column(
-        6, # column() modifies the layout (# is the column width)
-        h4("District-level abundance"),
+        6, # column() modifies the layout (# is the column width - full-page width is 12)
         plotOutput("distPlot")
       ),
       p(), # a line break
@@ -54,11 +54,12 @@ server <- function(input, output) {
     dogs %>%
       filter(BREED == input$breed & !is.na(DISTRICT)) %>%
       ggplot(aes(x = factor(DISTRICT))) +
+      geom_bar(fill = "#74CEB7") +
+      scale_y_continuous(expand = c(0, 0)) +
       xlab("District") +
       ylab("Number of dogs") +
-      ggtitle(paste("Count of", input$breed, "\n in each district", sep = " ")) +
-      geom_bar(fill = "#74CEB7") +
-      theme_classic(base_size = 16)
+      ggtitle(paste0("Count of ", input$breed, "s \n in each district")) +
+      theme_light(base_size = 16)
   })
 
   # use inputs here to subset the data to the user's district of choice:
@@ -75,7 +76,8 @@ server <- function(input, output) {
       geom_boxplot() +
       xlab("District") +
       ylab("Dog's birth year") +
-      theme_classic(base_size = 16)
+      ggtitle(paste0("Birthdays of \n", input$breed, "s")) +
+      theme_light(base_size = 16)
   })
 }
 
