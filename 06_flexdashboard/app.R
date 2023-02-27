@@ -32,11 +32,11 @@ ui <- dashboardPage(
       ,
       infoBox("Adelie", 
               penguins %>% filter(species=="Adelie") %>% count(),
-              color = "darkorange", icon = icon("plus"))
+              color = "orange", icon = icon("plus"))
       ,
       infoBox("Gentoo", 
               penguins %>% filter(species=="Gentoo") %>% count(),
-              color = "cyan4", icon = icon("plus"))
+              color = "aqua", icon = icon("plus"))
           ) #/fluidPage
       )
 
@@ -60,7 +60,7 @@ server <- function(input, output) {
                      shape = species),
                  size = 3,
                  alpha = 0.8) +
-      scale_color_manual(values = c("darkorange","purple","cyan4")) +
+      scale_color_manual(values = c("orange","purple","cyan")) +
       labs(title = "Penguin size, Palmer Station LTER",
            subtitle = "Flipper length and body mass for Adelie, Chinstrap and Gentoo Penguins",
            x = "Flipper length (mm)",
