@@ -1,14 +1,6 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 # This app loads data from the RAM legacy stock assessment database and provides the option for users to download a CSV of the filtered data.
 
-# Define server logic required to draw a histogram
+
 shinyServer(function(input, output) {
     
     subsetted_data <- reactive({

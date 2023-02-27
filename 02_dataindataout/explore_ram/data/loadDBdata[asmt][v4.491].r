@@ -108,7 +108,7 @@
 # Once the DBdata.RData file is in the working directory, simply run the following command to
 # load up the database data into matrix/dataframe files for the assessment only version of the database.
 
-print("Hi! Hello!")
+print("Hi! Downloading RAM Legacy data now")
 
 load(here::here("02_dataindataout",
            "explore_ram",
