@@ -63,7 +63,7 @@ shinyUI(
           outputId = "summary",
           label = "Download CSV"
         )
-      ) # /mainPanel <-- mark the ends of your ui components
+      ) # /mainPanel 
     ) # /sidebarLayout
-  )
+  ) # <-- mark the ends of your ui components
 )
