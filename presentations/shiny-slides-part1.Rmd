@@ -1,6 +1,6 @@
 ---
 title: "Shiny Part 1: Build!"
-subtitle: "<br/>FISH 497"
+subtitle: "<br/>FISH 549"
 author: "Megsie Siple"
 institute: "NOAA AFSC - RACE/GAP"
 date: "2021/03/01 (updated: `r Sys.Date()`)"
